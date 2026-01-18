@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { estimatedDocumentCount } = require('./User');
-
 
 const patientSchema = new mongoose.Schema({
     name: {
@@ -14,7 +12,7 @@ const patientSchema = new mongoose.Schema({
     gender:{
         type: String,
         required:[true, 'Please add patient gender'],
-        enum: ['male','female','Other']
+        enum: ['Male', 'Female', 'Other']
     },
     phone:{
         type: String,

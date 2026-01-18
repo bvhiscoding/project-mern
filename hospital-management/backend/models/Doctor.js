@@ -22,7 +22,7 @@ const doctorSchema = new mongoose.Schema({
         type: Number,
         default:0
     },
-    avaiable:{
+available: {
         type: Boolean,
         default: true
     },

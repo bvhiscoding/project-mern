@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const { protect } = require("../middleware/auth");
+const  protect  = require("../middleware/auth");
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const newUser = await User.create({
+    const user = await User.create({
       name,
       email,
       password,
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/me", async (req, res) => {
+router.get("/me",protect, async (req, res) => {
   res.json(req.user);
 });
 
