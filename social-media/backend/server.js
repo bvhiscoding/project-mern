@@ -4,19 +4,16 @@ const path = require('path')
 require('dotenv').config()
 
 const connectDB = require('./config/db')
+const userRoutes = require('./routes/userRoutes')
 const authRoutes = require('./routes/authRoutes')
 
-// Connect to MongoDB
-connectDB()
-
 const app = express()
-
-
+connectDB()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use('/uploads',express.static(path.join(__dirname,'uploads')))
-
+app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
 app.get('/',  (req,res)=>{
     res.json({message: 'Social Media API is running'})

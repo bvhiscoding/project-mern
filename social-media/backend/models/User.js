@@ -50,13 +50,15 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password trước khi save - PHẢI dùng regular function, KHÔNG dùng arrow function
-userSchema.pre('save', async function(next) {
+// Hash password trước khi save
+// Mongoose 9.x: async function không cần next(), chỉ cần return
+userSchema.pre('save', async function() {
+    // Nếu password không được sửa đổi, bỏ qua hash
     if(!this.isModified('password')){
-        next()
+        return;
     }
-    const salt = await bcrypt.genSalt(10)
-    this.password = await bcrypt.hash(this.password , salt)
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
 })
 
 // Method so sánh password - PHẢI dùng regular function
