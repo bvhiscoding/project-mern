@@ -1,0 +1,96 @@
+# ================================
+# Dependencies
+# ================================
+node_modules/
+.pnp/
+.pnp.js
+
+# ================================
+# Environment Variables
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# ================================
+# Build Outputs
+# ================================
+# Frontend (React)
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/out/
+
+# Backend
+backend/dist/
+backend/build/
+
+# ================================
+# Logs
+# ================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ================================
+# IDE & Editor
+# ================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.settings/
+
+# ================================
+# OS Files
+# ================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ================================
+# Testing
+# ================================
+coverage/
+.nyc_output/
+
+# ================================
+# Uploads (Backend - Multer)
+# ================================
+uploads/
+backend/uploads/
+
+# ================================
+# Misc
+# ================================
+*.tgz
+.cache/
+.temp/
+.tmp/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional npm cache
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Yarn
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
