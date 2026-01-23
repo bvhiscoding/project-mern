@@ -1,8 +1,6 @@
 const Post = require("../models/Post");
-
-// @desc    Get all posts (feed)
-// @route   GET /api/posts
-// @access  Private
+const User = require('../models/User')
+const {createNotification , deleteNotification} = require('../utils/notificationHelper')
 const getPosts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -135,9 +133,25 @@ const toggleLike = async (req, res) => {
     if (isLiked) {
       // Unlike - xóa user khỏi array likes
       post.likes = post.likes.filter((id) => id.toString() !== userId);
+
+      await deleteNotification({
+        recipientId: post.user,
+        senderId: req.user._id,
+        type:'like',
+        postId: post._id
+      })
     } else {
       // Like - thêm user vào array likes
       post.likes.push(req.user._id);
+      if(post.user.toString() !== userId){
+        await createNotification({
+          recipientId: post.user,
+          senderId: req.user._id,
+          type:'like',
+          postId: post._id,
+          message: `${req.user.username} liked your post`
+        })
+      }
     }
     
     await post.save();
@@ -174,7 +188,15 @@ const addComment = async (req, res) => {
     post.comments.push(comment);
 
     await post.save();
-
+    if (post.user.toString() !== req.user._id.toString()) {
+      await createNotification({
+        recipientId: post.user,
+        senderId: req.user._id,
+        type: 'comment',
+        postId: post._id,
+        message: `${req.user.username} commented on your post`,
+      });
+    }
     const populatedPost = await Post.findById(post._id)
       .populate("user", "username avatar")
       .populate("comments.user", "username avatar");

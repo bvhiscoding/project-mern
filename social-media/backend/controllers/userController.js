@@ -1,5 +1,8 @@
 const User = require("../models/User");
-
+const {
+  createNotification,
+  deleteNotification,
+} = require("../utils/notificationHelper");
 // @desc    Get user by ID
 // @route   GET /api/users/:id
 // @access  Private
@@ -123,7 +126,12 @@ const followUser = async (req, res) => {
 
     await currentUser.save();
     await userToFollow.save();
-
+    await createNotification({
+      recipientId: userToFollow._id,
+      senderId: req.user._id,
+      type: "follow",
+      message: `${currentUser.username} started following you`,
+    });
     res.json({ message: "User followed successfully" });
   } catch (error) {
     console.error("FollowUser error:", error);
@@ -163,7 +171,11 @@ const unfollowUser = async (req, res) => {
 
     await currentUser.save();
     await userToUnfollow.save();
-
+    await deleteNotification({
+      recipientId: userToUnfollow._id,
+      senderId: req.user._id,
+      type: "follow",
+    });
     res.json({ message: "User unfollowed successfully" });
   } catch (error) {
     console.error("UnfollowUser error:", error);
