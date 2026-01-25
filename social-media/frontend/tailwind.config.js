@@ -1,0 +1,19 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#3b82f6',      // Blue-500
+        secondary: '#64748b',    // Slate-500
+        danger: '#ef4444',       // Red-500
+        success: '#22c55e',      // Green-500
+      },
+    },
+  },
+  plugins: [],
+}
+
