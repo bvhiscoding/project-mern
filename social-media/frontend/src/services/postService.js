@@ -10,6 +10,10 @@ const getPostsByUser = async (userId) =>{
     const response = await api.get(`${ENDPOINT}/user/${userId}`)
     return response.data
 }
+const getPostById = async (id) => {
+  const response = await api.get(`${ENDPOINT}/${id}`);
+  return response.data; // Single post object
+};
 
 const createPost = async (formData) =>{
     const response = await api.post(ENDPOINT, formData, {
@@ -24,7 +28,7 @@ const deletePost =async (id) =>{
     return response.data
 }
 const toggleLike = async (id) =>{
-    const response =await api.put(`${ENDPOINT}/${id}`)
+    const response = await api.put(`${ENDPOINT}/like/${id}`)
     return response.data
 }
 const addComment = async (postId, text) => {

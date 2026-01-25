@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import postService from "../../services/postService";
 
@@ -177,5 +177,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { reset, clearCurrentPost } = postService.actions;
+export const { reset, clearCurrentPost } = postSlice.actions;
 export default postSlice.reducer;
