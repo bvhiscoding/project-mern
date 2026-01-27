@@ -23,7 +23,7 @@ const Navbar = () => {
   };
   const avatarUrl = user?.avatar
     ? `${import.meta.env.VITE_UPLOADS_URL}/${user.avatar}`
-    : "/avatar.png";
+    : "/default-avatar.png";
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between max-w-6xl">
@@ -74,4 +74,4 @@ const Navbar = () => {
     </nav>
   );
 };
-export default Navbar
+export default Navbar;
