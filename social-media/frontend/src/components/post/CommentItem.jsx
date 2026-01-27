@@ -8,7 +8,7 @@ const CommentItem = ({ comment, onDelete }) => {
 
   const avatarUrl = comment.user.avatar
     ? `${import.meta.env.VITE_UPLOADS_URL}/${comment.user.avatar}`
-    : "/avatar.png";
+    : "/default-avatar.png";
 
   return (
     <div className="flex gap-3 py-3 border-b border-gray-100 last:border-b-0">
@@ -59,4 +59,4 @@ const CommentItem = ({ comment, onDelete }) => {
     </div>
   );
 };
-export default CommentItem
+export default CommentItem;

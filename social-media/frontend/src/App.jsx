@@ -5,7 +5,10 @@ import Layout from "./components/layout/Layout";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import HomePage from './pages/HomePage';
+import HomePage from "./pages/HomePage";
+import ProfilePage from './pages/ProfilePage'
+import FollowersPage from "./pages/FollowersPage";
+import FollowingPage from "./pages/FollowingPage";
 function App() {
   return (
     <Provider store={store}>
@@ -19,14 +22,9 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
-              <Route
-                path="/profile/:id"
-                element={
-                  <div className="text-center text-2xl mt-10">
-                    Profile Page - Coming Soon
-                  </div>
-                }
-              />
+              <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/users/:id/followers" element={<FollowersPage />} />
+              <Route path="/users/:id/following" element={<FollowingPage />} />
             </Route>
           </Route>
 
