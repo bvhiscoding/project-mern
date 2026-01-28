@@ -4,13 +4,14 @@ import authReducer from './slices/authSlice'
 import postReducer from './slices/postSlice'
 import notificationReducer from './slices/notificationSlice'
 import userReducer from './slices/userSlice'
-
+import searchReducer from './slices/searchSlice'
 const store = configureStore({
     reducer:{
         auth: authReducer,
         posts: postReducer,
         notifications: notificationReducer,
-        user: userReducer
+        user: userReducer,
+        search: searchReducer
     }
 })
 

@@ -6,7 +6,7 @@ const UserCard = ({ user, showBio = true }) => {
     : "/default-avatar.png";
   return (
     <Link
-      to={`/profiles/${user._id}`}
+      to={`/profile/${user._id}`}
       className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
     >
       <img
@@ -42,4 +42,4 @@ const UserCard = ({ user, showBio = true }) => {
   );
 };
 
-export default UserCard
+export default UserCard;

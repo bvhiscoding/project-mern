@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import ProfilePage from './pages/ProfilePage'
 import FollowersPage from "./pages/FollowersPage";
 import FollowingPage from "./pages/FollowingPage";
+import SearchPage from "./pages/SearchPage";
 function App() {
   return (
     <Provider store={store}>
@@ -25,6 +26,7 @@ function App() {
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/users/:id/followers" element={<FollowersPage />} />
               <Route path="/users/:id/following" element={<FollowingPage />} />
+              <Route path="/search" element={<SearchPage />} />
             </Route>
           </Route>
 
