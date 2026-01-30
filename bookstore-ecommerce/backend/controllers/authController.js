@@ -60,4 +60,44 @@ const getUserProfile = async (req, res) => {
   res.status(200).json(req.user)
 }
 
-module.exports = { registerUser, loginUser, getUserProfile }
+const updateUserProfile = async (req, res) => {
+  try {
+    const { name, email, password } = req.body
+    const user = await User.findById(req.user._id)
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' })
+    }
+
+    if (email && email !== user.email) {
+      const existingEmail = await User.findOne({
+        email,
+        _id: { $ne: user._id },
+      })
+      if (existingEmail) {
+        return res.status(400).json({ message: 'Email already in use' })
+      }
+    }
+
+    user.name = name || user.name
+    user.email = email || user.email
+    if (password) {
+      user.password = password
+    }
+
+    const updatedUser = await user.save()
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+    })
+  } catch (error) {
+    console.error('UpdateProfile error:', error)
+    res.status(500).json({ message: error.message })
+  }
+}
+
+module.exports = { registerUser, loginUser, getUserProfile, updateUserProfile }
