@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+const User = require('../models/User');
 const sampleBooks = [
   {
     title: 'The Great Gatsby',
@@ -154,4 +155,30 @@ const seedBooks = async () => {
     console.error(`Seed error: ${error.message}`);
   }
 };
-module.exports = { seedBooks, sampleBooks };
+
+const sampleUsers = [
+  {
+    name: 'Admin User',
+    email: 'admin@bookstore.dev',
+    password: 'Admin123!',
+    isAdmin: true,
+  },
+  {
+    name: 'Regular User',
+    email: 'user@bookstore.dev',
+    password: 'User123!',
+    isAdmin: false,
+  },
+];
+
+const seedUsers = async () => {
+  try {
+    await User.deleteMany();
+    await User.create(sampleUsers);
+    console.log('Sample users seeded successfully');
+  } catch (error) {
+    console.error(`Seed error: ${error.message}`);
+  }
+};
+
+module.exports = { seedBooks, sampleBooks, seedUsers, sampleUsers };

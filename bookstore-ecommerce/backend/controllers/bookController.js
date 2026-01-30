@@ -2,8 +2,15 @@ const Book = require('../models/Book')
 
 const getBooks = async (req, res) => {
   try {
-    const { genre, minPrice, maxPrice, sort } = req.query
+    const { genre, minPrice, maxPrice, sort, search } = req.query
     const query = {}
+
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { author: { $regex: search, $options: 'i' } },
+      ]
+    }
 
     if (genre) {
       query.genre = genre
