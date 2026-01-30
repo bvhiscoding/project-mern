@@ -1,6 +1,6 @@
 const Restaurant = require("../models/Restaurant");
 
-const getAllRestaurant = async (req, res) => {
+const getAllRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find({ isActive: true });
     res.json(restaurants);
@@ -23,7 +23,7 @@ const getRestaurantById = async (req, res) => {
   }
 };
 // ADMIN
-const createRestaurent = async (req, res) => {
+const createRestaurant = async (req, res) => {
   try {
     const { name, image, description, address, rating, cuisine } = req.body;
     if (!name || !image) {

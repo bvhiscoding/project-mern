@@ -31,7 +31,7 @@ const getDishById = async (req, res) => {
   }
 };
 // ADMIN
-const creatDish = async (req, res) => {
+const createDish = async (req, res) => {
   try {
     const { name, price, restaurant } = req.body;
     if (!name || !price || !restaurant) {
