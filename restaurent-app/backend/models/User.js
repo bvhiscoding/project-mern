@@ -34,13 +34,10 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 // Pre-save hook: Hash password trước khi lưu
-userSchema.pre("save", async function (next) {
-  // Chỉ hash nếu password được thay đổi
-  if (!this.isModified("password")) return next();
-
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
-  next();
 });
 // Method: So sánh password khi login
 userSchema.methods.matchPassword = async function (enteredPassword) {

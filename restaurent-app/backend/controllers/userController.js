@@ -5,7 +5,6 @@ const getAllUsers = async (req, res) => {
     const users = await User.find().select("-password");
     res.json(users);
   } catch (error) {
-    console.error("GetAllUsers error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -18,11 +17,10 @@ const getUserById = async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.error("GetUserById error:", error);
     res.status(500).json({ message: error.message });
   }
 };
-// ADMIN PERMISSION
+
 const updateUser = async (req, res) => {
   try {
     const { name, email, role, phone, address } = req.body;
@@ -45,7 +43,6 @@ const updateUser = async (req, res) => {
       address: updatedUser.address,
     });
   } catch (error) {
-    console.error("UpdateUser error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -58,7 +55,6 @@ const deleteUser = async (req, res) => {
     }
     res.json({ message: "User removed" });
   } catch (error) {
-    console.error("DeleteUser error:", error);
     res.status(500).json({ message: error.message });
   }
 };

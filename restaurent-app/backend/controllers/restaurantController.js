@@ -5,7 +5,6 @@ const getAllRestaurants = async (req, res) => {
     const restaurants = await Restaurant.find({ isActive: true });
     res.json(restaurants);
   } catch (error) {
-    console.error("GetAllRestaurants error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -18,11 +17,10 @@ const getRestaurantById = async (req, res) => {
     }
     res.json(restaurant);
   } catch (error) {
-    console.error("GetRestaurantById error:", error);
     res.status(500).json({ message: error.message });
   }
 };
-// ADMIN
+
 const createRestaurant = async (req, res) => {
   try {
     const { name, image, description, address, rating, cuisine } = req.body;
@@ -39,10 +37,10 @@ const createRestaurant = async (req, res) => {
     });
     res.json(restaurant);
   } catch (error) {
-    console.error("CreateRestaurant error:", error);
     res.status(500).json({ message: error.message });
   }
 };
+
 const updateRestaurant = async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.id);
@@ -58,7 +56,6 @@ const updateRestaurant = async (req, res) => {
     const updatedRestaurant = await restaurant.save();
     res.json(updatedRestaurant);
   } catch (error) {
-    console.error('UpdateRestaurant error:', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -69,7 +66,6 @@ const deleteRestaurant = async (req, res) => {
     if (!restaurant) return res.status(404).json({ message: 'Restaurant not found' });
     res.json({ message: 'Restaurant removed' });
   } catch (error) {
-    console.error('DeleteRestaurant error:', error);
     res.status(500).json({ message: error.message });
   }
 };

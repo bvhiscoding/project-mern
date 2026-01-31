@@ -24,6 +24,10 @@ app.use("/api/dishes", dishRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: err.message || "Server error" });
+});
 
 const PORT = process.env.PORT || 3000;
 

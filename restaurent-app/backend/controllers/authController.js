@@ -6,7 +6,7 @@ const generateToken = (id) => {
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, role } = req.body;
     if (!name || !email || !password) {
       return res
         .status(400)
@@ -16,7 +16,11 @@ const register = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: "Email already exists" });
     }
-    const user = await User.create({ name, email, password, phone, address });
+    const userData = { name, email, password, phone, address };
+    if (role === 'admin') {
+      userData.role = 'admin';
+    }
+    const user = await User.create(userData);
     res.status(201).json({
       user: {
         id: user._id,
@@ -29,7 +33,6 @@ const register = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    console.error("Register error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -58,7 +61,6 @@ const login = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    console.error("Login error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -75,7 +77,6 @@ const getProfile = async (req, res) => {
       address: user.address,
     });
   } catch (error) {
-    console.error("GetProfile error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -108,7 +109,6 @@ const updateProfile = async (req, res) => {
       token: generateToken(updatedUser._id),
     });
   } catch (error) {
-    console.error("UpdateProfile error:", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -151,7 +151,6 @@ const changePassword = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    console.error("ChangePassword error:", error);
     res.status(500).json({ message: error.message });
   }
 };
