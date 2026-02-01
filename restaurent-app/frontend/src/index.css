@@ -1,0 +1,24 @@
+@import "tailwindcss";
+/* Custom theme variables - Tailwind v4 style */
+@theme {
+  --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+  
+  --color-primary-50: #eff6ff;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  
+  --color-secondary-50: #f5f3ff;
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+}
+/* Global base styles */
+body {
+  @apply bg-gray-50 text-gray-900 min-h-screen;
+}
+/* Custom components */ 
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200;
+}
+.btn-secondary {
+  @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200;
+}
