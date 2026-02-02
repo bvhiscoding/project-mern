@@ -3,6 +3,8 @@ import PrivateRoute from './components/common/PrivateRoute';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
+import RestaurantsPage from './pages/RestaurantsPage';
+import RestaurantDetailPage from './pages/RestaurantDetailPage';
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +19,25 @@ function App() {
           element={
             <PrivateRoute>
               <HomePage />
+            </PrivateRoute>
+          }
+        />
+        
+        {/* Restaurant Routes - Protected */}
+        <Route
+          path="/restaurants"
+          element={
+            <PrivateRoute>
+              <RestaurantsPage />
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/restaurants/:id"
+          element={
+            <PrivateRoute>
+              <RestaurantDetailPage />
             </PrivateRoute>
           }
         />

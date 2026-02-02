@@ -4,5 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  // Tailwind v4 vẫn support JS config nhưng @theme được ưu tiên
+   plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
 };
