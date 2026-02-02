@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login, reset } from '../store/slices/authSlice';
 
-const LoginPage =() =>{
+const LoginPage =()=>{
 
     const [formData , setFormData] = useState({
         email: '',
@@ -15,12 +15,14 @@ const LoginPage =() =>{
     const {isLoading,isError, isSuccess , user} = useSelector((state) => state.auth)
     const {email, password} = formData
 
-    //REDIRECTING AFTER LOGIN SUCCESS
-    if(isSuccess || user){
-        const from = location.state?.from?.pathname || '/';
-        navigate(from)
-        dispatch(reset())
-    }
+    //REDIRECTING AFTER LOGIN SUCCESS - CHỈ redirect khi login thành công
+    useEffect(() => {
+        if(isSuccess && user){
+            const from = location.state?.from?.pathname || '/';
+            navigate(from, { replace: true })
+            dispatch(reset())
+        }
+    }, [isSuccess, user, navigate, location, dispatch])
 
     const onChange = (e) =>{
         setFormData((prevState) =>({

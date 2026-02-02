@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { register, reset } from '../store/slices/authSlice';
 
-const RegisterPage =() =>{
+const RegisterPage =()=>{
     const [formData , setFormData] = useState({
         name: '',
         email: '',
@@ -17,11 +17,14 @@ const RegisterPage =() =>{
     const {isLoading,isError, isSuccess , user, } = useSelector((state) => state.auth)
     const {name, email, password, confirmPassword, phone, address} = formData
 
-    //REDIRECTING AFTER REGISTER SUCCESS
-    if(isSuccess ||user){
-        navigate('/')
-        dispatch(reset())
-    }
+    //REDIRECTING AFTER REGISTER SUCCESS - CHỈ redirect khi register thành công
+    useEffect(() => {
+        if(isSuccess && user){
+            navigate('/', { replace: true })
+            dispatch(reset())
+        }
+    }, [isSuccess, user, navigate, dispatch])
+
     const onChange = (e) =>{
         setFormData((prevState) =>({
             ...prevState,
@@ -29,6 +32,7 @@ const RegisterPage =() =>{
         }))
 
     }
+
     const onSubmit = (e) =>{
         e.preventDefault();
         if(password !==confirmPassword){

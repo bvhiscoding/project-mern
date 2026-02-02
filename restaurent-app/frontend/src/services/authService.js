@@ -35,12 +35,25 @@ export const authService = {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   },
-  getCurrentUser: () => {
+   getCurrentUser: () => {
     const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    const token = localStorage.getItem('token');
+    
+    if (user && !token) {
+      localStorage.removeItem('user');
+      return null;
+    }
+    
+    try {
+      return user ? JSON.parse(user) : null;
+    } catch (error) {
+      localStorage.removeItem('user');
+      return null;
+    }
   },
   isAuthenticated: () => {
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    return !!token && token !== 'undefined' && token !== 'null';
   },
 };
 
