@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../../features/authSlice';
-import { FaShoppingCart, FaUser, FaSignOutAlt, FaUtensils } from 'react-icons/fa';
+import { logout } from '../../store/slices/authSlice';
+import { FaShoppingCart, FaUser, FaSignOutAlt, FaUtensils, FaTachometerAlt } from 'react-icons/fa';
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { totalItems } = useSelector((state) => state.cart);
+  // TODO: Add cart state when cartSlice is implemented
+  const totalItems = 0; // Placeholder until cart feature is added
   const handleLogout = () => {
     dispatch(logout());
     navigate('/');
@@ -28,9 +29,10 @@ function Navbar() {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/"
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center gap-2"
             >
-              Home
+              <FaTachometerAlt />
+              Dashboard
             </Link>
             <Link
               to="/restaurants"
@@ -135,7 +137,7 @@ function Navbar() {
               to="/"
               className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
             >
-              Home
+              Dashboard
             </Link>
             <Link
               to="/restaurants"

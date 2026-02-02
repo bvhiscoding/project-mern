@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from './components/common/PrivateRoute';
+import MainLayout from './components/layouts/MainLayout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage';
+import DashboardPage from './pages/DashboardPage';
 import RestaurantsPage from './pages/RestaurantsPage';
 import RestaurantDetailPage from './pages/RestaurantDetailPage';
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,22 +15,25 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         
-        {/* Protected Routes */}
+        {/* Protected Routes with MainLayout */}
         <Route
           path="/"
           element={
             <PrivateRoute>
-              <HomePage />
+              <MainLayout>
+                <DashboardPage />
+              </MainLayout>
             </PrivateRoute>
           }
         />
         
-        {/* Restaurant Routes - Protected */}
         <Route
           path="/restaurants"
           element={
             <PrivateRoute>
-              <RestaurantsPage />
+              <MainLayout>
+                <RestaurantsPage />
+              </MainLayout>
             </PrivateRoute>
           }
         />
@@ -37,7 +42,9 @@ function App() {
           path="/restaurants/:id"
           element={
             <PrivateRoute>
-              <RestaurantDetailPage />
+              <MainLayout>
+                <RestaurantDetailPage />
+              </MainLayout>
             </PrivateRoute>
           }
         />
@@ -48,4 +55,5 @@ function App() {
     </BrowserRouter>
   );
 }
+
 export default App;
