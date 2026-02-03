@@ -26,8 +26,7 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    toast.success('Checkout feature coming in Phase 13!');
-    // Will navigate to /checkout in Phase 13
+    navigate('/checkout');
   };
 
   // Empty cart state

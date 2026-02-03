@@ -7,6 +7,9 @@ import DashboardPage from './pages/DashboardPage';
 import RestaurantsPage from './pages/RestaurantsPage';
 import RestaurantDetailPage from './pages/RestaurantDetailPage';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import OrdersPage from './pages/OrdersPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 function App() {
   return (
@@ -56,6 +59,39 @@ function App() {
             <PrivateRoute>
               <MainLayout>
                 <CartPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <CheckoutPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <OrdersPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/orders/:id"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <OrderDetailPage />
               </MainLayout>
             </PrivateRoute>
           }
