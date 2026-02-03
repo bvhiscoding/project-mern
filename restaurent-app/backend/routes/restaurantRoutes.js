@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   getAllRestaurants,
+  getAllRestaurantsAdmin,
   getRestaurantById,
   createRestaurant,
   updateRestaurant,
@@ -10,6 +11,7 @@ const { protect } = require("../middlewares/authMiddleware");
 const { admin } = require("../middlewares/adminMiddleware");
 const router = express.Router();
 router.get("/", getAllRestaurants);
+router.get("/all", protect, admin, getAllRestaurantsAdmin);
 router.get("/:id", getRestaurantById);
 router.post("/", protect, admin, createRestaurant);
 router.put("/:id", protect, admin, updateRestaurant);

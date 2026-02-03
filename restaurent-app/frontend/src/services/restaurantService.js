@@ -17,6 +17,11 @@ const restaurantService = {
     
     return response.data;
   },
+  // GET ALL RESTAURANTS (Admin)
+  getAllRestaurantsAdmin: async () => {
+    const response = await api.get('/restaurants/all');
+    return response.data;
+  },
   // GET SINGLE RESTAURANT by ID
   getRestaurantById: async (id) => {
     // URL: /api/restaurants/65abc123...

@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PrivateRoute from './components/common/PrivateRoute';
+import AdminRoute from './components/common/AdminRoute';
 import MainLayout from './components/layouts/MainLayout';
+import AdminShell from './components/admin/AdminShell';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
@@ -10,6 +12,11 @@ import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import OrderDetailPage from './pages/OrderDetailPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminRestaurantsPage from './pages/admin/AdminRestaurantsPage';
+import AdminDishesPage from './pages/admin/AdminDishesPage';
+import AdminOrdersPage from './pages/admin/AdminOrdersPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 function App() {
   return (
@@ -96,6 +103,17 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminRoute />}>
+          <Route element={<AdminShell />}>
+            <Route index element={<AdminDashboardPage />} />
+            <Route path="restaurants" element={<AdminRestaurantsPage />} />
+            <Route path="dishes" element={<AdminDishesPage />} />
+            <Route path="orders" element={<AdminOrdersPage />} />
+            <Route path="users" element={<AdminUsersPage />} />
+          </Route>
+        </Route>
         
         {/* Default redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -9,6 +9,15 @@ const getAllRestaurants = async (req, res) => {
   }
 };
 
+const getAllRestaurantsAdmin = async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+    res.json({ success: true, data: restaurants });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 const getRestaurantById = async (req, res) => {
   try {
     const restaurant = await Restaurant.findById(req.params.id);
@@ -71,6 +80,7 @@ const deleteRestaurant = async (req, res) => {
 };
 module.exports = {
   getAllRestaurants,
+  getAllRestaurantsAdmin,
   getRestaurantById,
   createRestaurant,
   updateRestaurant,

@@ -6,3 +6,5 @@ const AdminRoute =() =>{
     return user && user.role === 'admin' ? <Outlet /> : <Navigate to="/login" />;
 
 }
+
+export default AdminRoute;
