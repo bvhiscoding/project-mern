@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../store/slices/orderSlice';
 import { clearCart } from '../store/slices/cartSlice';
 import { FaArrowLeft, FaMapMarkerAlt, FaPhone, FaStickyNote } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const CheckoutPage = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ const CheckoutPage = () => {
       const result = await dispatch(createOrder(orderData)).unwrap();
       dispatch(clearCart());
       navigate(`/orders/${result._id}`);
-    } catch (error) {
+    } catch {
       // Error already handled by toast in orderSlice
     }
   };

@@ -12,7 +12,7 @@ const LoginPage =()=>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation()
-    const {isLoading,isError, isSuccess , user} = useSelector((state) => state.auth)
+    const {isLoading,isError, isSuccess , user, message} = useSelector((state) => state.auth)
     const {email, password} = formData
 
     //REDIRECTING AFTER LOGIN SUCCESS - CHỈ redirect khi login thành công
@@ -74,7 +74,7 @@ const LoginPage =()=>{
 
                     {isError &&(
                         <div className='bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl'>
-                            {useSelector((state) => state.auth.message)}
+                            {message}
                         </div>
                     )}
 

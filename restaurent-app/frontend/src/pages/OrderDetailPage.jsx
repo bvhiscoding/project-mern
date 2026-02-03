@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrderById, cancelOrder, clearSelectedOrder } from '../store/slices/orderSlice';
 import { FaArrowLeft, FaMapMarkerAlt, FaPhone, FaStickyNote, FaReceipt, FaCreditCard } from 'react-icons/fa';
-import toast from 'react-hot-toast';
 
 const OrderDetailPage = () => {
   const { id } = useParams();
@@ -25,7 +24,7 @@ const OrderDetailPage = () => {
     if (window.confirm('Are you sure you want to cancel this order?')) {
       try {
         await dispatch(cancelOrder(id)).unwrap();
-      } catch (error) {
+      } catch {
         // Error handled by toast in orderSlice
       }
     }

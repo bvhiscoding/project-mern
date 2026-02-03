@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { removeFromCart, updateQuantity, clearCart } from '../store/slices/cartSlice';
 import { FaMinus, FaPlus, FaTrash, FaArrowLeft, FaShoppingBag } from 'react-icons/fa';
-import toast from 'react-hot-toast';
 
 const CartPage = () => {
   const dispatch = useDispatch();

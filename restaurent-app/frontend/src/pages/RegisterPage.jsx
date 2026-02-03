@@ -14,7 +14,7 @@ const RegisterPage =()=>{
     }); 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {isLoading,isError, isSuccess , user, } = useSelector((state) => state.auth)
+    const {isLoading,isError, isSuccess , user, message } = useSelector((state) => state.auth)
     const {name, email, password, confirmPassword, phone, address} = formData
 
     //REDIRECTING AFTER REGISTER SUCCESS - CHỈ redirect khi register thành công
@@ -156,7 +156,7 @@ const RegisterPage =()=>{
           </div>
           {isError && (
             <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl">
-              {useSelector((state) => state.auth.message)}
+              {message}
             </div>
           )}
           <div>

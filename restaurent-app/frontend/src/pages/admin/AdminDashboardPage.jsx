@@ -39,7 +39,7 @@ const AdminDashboardPage = () => {
           users: users.length,
         });
         setRecentOrders(orders.slice(0, 5));
-      } catch (error) {
+      } catch {
         setRecentOrders([]);
       } finally {
         setIsLoading(false);

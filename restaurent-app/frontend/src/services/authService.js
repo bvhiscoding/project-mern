@@ -46,7 +46,7 @@ export const authService = {
     
     try {
       return user ? JSON.parse(user) : null;
-    } catch (error) {
+    } catch {
       localStorage.removeItem('user');
       return null;
     }
