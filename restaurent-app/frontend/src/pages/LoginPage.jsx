@@ -37,22 +37,21 @@ const LoginPage =()=>{
     }
 
     return (
-        <div className='min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+        <div className='min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-md w-full space-y-8'>
-                <div>
-                    <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-                        Login
-                    </h2>
-                    <p className='mt-2 text-center text-sm text-gray-600'>
+                <div className='text-center'>
+                    <p className='text-xs uppercase tracking-[0.3em] text-[#8f3721] font-semibold'>Welcome back</p>
+                    <h2 className='mt-3 text-center text-3xl font-bold text-[#2b1e18] font-display'>Login</h2>
+                    <p className='mt-2 text-center text-sm text-[#5a463d]'>
                         Or{' '}
-                        <Link to='/register' className='font-medium text-blue-600 hover:text-blue-500'>
+                        <Link to='/register' className='font-semibold text-[#8f3721] hover:text-[#6f2a1a]'>
                             Register
                         </Link>
                     </p>
                 </div>
                 <form 
-                className='mt-8 space-y-6' onSubmit={onSubmit}>
-                    <div className='rounded-md shadow-md -space-y-px'>
+                className='mt-6 space-y-6 glass-panel p-6' onSubmit={onSubmit}>
+                    <div className='rounded-xl -space-y-px overflow-hidden border border-[#eadfce]'>
                         <div>
                             <label htmlFor="email" className='sr-only'>Email address</label>
                             <input 
@@ -64,17 +63,17 @@ const LoginPage =()=>{
                             value={email}
                             onChange={onChange} 
                             placeholder='Email'
-                            className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'/>
+                            className='appearance-none relative block w-full px-4 py-3 border-b border-[#eadfce] placeholder-[#6d5b51] text-[#2b1e18] bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:z-10 sm:text-sm'/>
                         </div>
                         <div>
                             <label htmlFor="password" className='sr-only'>Password</label>
                             <input type="password" name="password" id="password" autoComplete='current-password' required value={password} onChange={onChange} placeholder='Password'
-                            className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm' />
+                            className='appearance-none relative block w-full px-4 py-3 placeholder-[#6d5b51] text-[#2b1e18] bg-white/80 focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:z-10 sm:text-sm' />
                         </div>
                     </div>
 
                     {isError &&(
-                        <div className='bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded relative'>
+                        <div className='bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl'>
                             {useSelector((state) => state.auth.message)}
                         </div>
                     )}
@@ -83,7 +82,7 @@ const LoginPage =()=>{
                         <button 
                         type='submit'
                         disabled={isLoading}
-                        className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed'>
+                        className='group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-full text-white bg-[#b1452a] hover:bg-[#8f3721] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d4a373] disabled:opacity-50 disabled:cursor-not-allowed'>
                             {isLoading ?'Logging in...':'Login'}
                         </button>
                     </div>

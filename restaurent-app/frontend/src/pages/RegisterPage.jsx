@@ -48,24 +48,23 @@ const RegisterPage =()=>{
     };
 
     return ( 
-        <div className='min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+        <div className='min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
             <div className='max-w-md w-full space-y-8'>
-                <div>
-                    <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-                       Register 
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
+                <div className='text-center'>
+                    <p className='text-xs uppercase tracking-[0.3em] text-[#8f3721] font-semibold'>Join the table</p>
+                    <h2 className='mt-3 text-center text-3xl font-bold text-[#2b1e18] font-display'>Register</h2>
+                    <p className="mt-2 text-center text-sm text-[#5a463d]">
                     Or{' '}
                     <Link
                     to="/login"
-                    className="font-medium text-blue-600 hover:text-blue-500"
+                    className="font-semibold text-[#8f3721] hover:text-[#6f2a1a]"
                     >
                         Login
                     </Link>
                     </p>
                 </div>
-<form className="mt-8 space-y-6" onSubmit={onSubmit}>
-          <div className="space-y-4">
+ <form className="mt-6 space-y-6 glass-panel p-6" onSubmit={onSubmit}>
+           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
@@ -77,7 +76,7 @@ const RegisterPage =()=>{
                 required
                 value={name}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="Enter your name"
               />
             </div>
@@ -92,7 +91,7 @@ const RegisterPage =()=>{
                 required
                 value={email}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="enter@email.com"
               />
             </div>
@@ -106,7 +105,7 @@ const RegisterPage =()=>{
                 type="tel"
                 value={phone}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="0123456789"
               />
             </div>
@@ -120,7 +119,7 @@ const RegisterPage =()=>{
                 type="text"
                 value={address}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="Enter your address"
               />
             </div>
@@ -135,7 +134,7 @@ const RegisterPage =()=>{
                 required
                 value={password}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="At least 6 characters"
               />
             </div>
@@ -150,13 +149,13 @@ const RegisterPage =()=>{
                 required
                 value={confirmPassword}
                 onChange={onChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="mt-1 block w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d4a373] focus:border-transparent sm:text-sm"
                 placeholder="Re-enter your password"
               />
             </div>
           </div>
           {isError && (
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded relative">
+            <div className="bg-rose-50 border border-rose-200 text-rose-600 px-4 py-3 rounded-xl">
               {useSelector((state) => state.auth.message)}
             </div>
           )}
@@ -164,7 +163,7 @@ const RegisterPage =()=>{
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-semibold text-white bg-[#b1452a] hover:bg-[#8f3721] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d4a373] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <span className="animate-pulse">Registering...</span>

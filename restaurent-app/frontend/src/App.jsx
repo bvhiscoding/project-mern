@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import RestaurantsPage from './pages/RestaurantsPage';
 import RestaurantDetailPage from './pages/RestaurantDetailPage';
+import CartPage from './pages/CartPage';
 
 function App() {
   return (
@@ -44,6 +45,17 @@ function App() {
             <PrivateRoute>
               <MainLayout>
                 <RestaurantDetailPage />
+              </MainLayout>
+            </PrivateRoute>
+          }
+        />
+        
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <MainLayout>
+                <CartPage />
               </MainLayout>
             </PrivateRoute>
           }

@@ -46,19 +46,19 @@ const RestaurantFilter = ({ onFilter }) => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
+    <div className="glass-panel p-5 mb-6">
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Search Input */}
           <div className="relative md:col-span-2">
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8f3721]" />
             <input
               type="text"
               name="search"
               placeholder="Search restaurants..."
               value={filters.search}
               onChange={handleChange}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full pl-12 pr-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 focus:ring-2 focus:ring-[#d4a373] focus:border-transparent outline-none"
             />
           </div>
 
@@ -68,7 +68,7 @@ const RestaurantFilter = ({ onFilter }) => {
               name="cuisine"
               value={filters.cuisine}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 focus:ring-2 focus:ring-[#d4a373] focus:border-transparent outline-none"
             >
               <option value="">All Cuisines</option>
               <option value="Italian">Italian</option>
@@ -87,7 +87,7 @@ const RestaurantFilter = ({ onFilter }) => {
               name="minRating"
               value={filters.minRating}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white/80 focus:ring-2 focus:ring-[#d4a373] focus:border-transparent outline-none"
             >
               <option value="">All Ratings</option>
               <option value="4.5">4.5+ Stars</option>
@@ -99,17 +99,17 @@ const RestaurantFilter = ({ onFilter }) => {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-3 mt-4">
+        <div className="flex flex-col sm:flex-row gap-3 mt-4">
           <button
             type="submit"
-            className="flex-1 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            className="flex-1 bg-[#b1452a] text-white px-6 py-3 rounded-xl hover:bg-[#8f3721] transition-colors font-semibold shadow-sm"
           >
             Apply Filters
           </button>
           <button
             type="button"
             onClick={handleClear}
-            className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+            className="px-6 py-3 bg-[#f3e0b8] text-[#3c2f2a] rounded-xl hover:bg-[#ead29f] transition-colors font-semibold"
           >
             Clear
           </button>
