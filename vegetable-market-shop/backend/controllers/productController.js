@@ -13,7 +13,7 @@ const getProducts = asyncHandler(async(req,res) =>{
          } : {};
          const typeFilter = req.query.type ? { type: req.query.type } : {};
          const filters = { ...keyword, ...typeFilter };
-         const count = await Product.countDocuments({filters});
+         const count = await Product.countDocuments(filters);
          const products = await Product.find(filters)
          .limit(pageSize)
             .skip(pageSize * (page - 1));

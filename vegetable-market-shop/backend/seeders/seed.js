@@ -1,5 +1,6 @@
 const path = require('path');
 const dotenv = require('dotenv');
+const bcrypt = require('bcryptjs');
 const connectDB = require('../config/db');
 
 const User = require('../models/User');
@@ -21,7 +22,12 @@ const importData = async () => {
     await Product.deleteMany();
     await User.deleteMany();
 
-    await User.insertMany(users);
+    const hashedUsers = users.map((user) => ({
+      ...user,
+      password: bcrypt.hashSync(user.password, 10),
+    }));
+
+    await User.insertMany(hashedUsers);
     await Product.insertMany(products);
 
     console.log('Data Imported');

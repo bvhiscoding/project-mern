@@ -40,18 +40,19 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const salt =  bcrypt.genSaltSync(10);
-
-userSchema.pre('save' , function(next){
-    if(!this.isModified('password')){
-        return next();
+userSchema.pre('save', async function () {
+    if (!this.isModified('password')) {
+        return;
     }
-    this.password = bcrypt.hashSync(this.password, salt);
-    next();
-})
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+});
 
 userSchema.methods.comparePassword = function(password){
     return bcrypt.compareSync(password, this.password);
+}
+userSchema.methods.matchPassword = function(password){
+    return this.comparePassword(password);
 }
 module.exports = mongoose.model('User', userSchema);
 

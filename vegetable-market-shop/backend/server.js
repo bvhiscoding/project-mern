@@ -18,8 +18,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(notFound);
-app.use(errorHandler);
 app.get('/', (req, res) => {
     res.send('Vegetable Market Shop API is running');
 });
@@ -27,6 +25,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use(notFound);
+app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 

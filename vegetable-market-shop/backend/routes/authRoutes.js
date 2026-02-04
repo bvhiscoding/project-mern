@@ -8,10 +8,10 @@ const { get } = require('mongoose');
 
 // @route   POST /api/auth/register
 
-router.post('/register', registerValidation, validate, register);
+router.post('/register', ...registerValidation, validate, register);
 
 // @route   POST /api/auth/login
-router.post('/login', loginValidation, validate, login);
+router.post('/login', ...loginValidation, validate, login);
 
 // @route   GET /api/auth/profile
 router.get('/profile', protect, getProfile);
