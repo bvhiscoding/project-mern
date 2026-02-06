@@ -45,6 +45,7 @@ export default function Navbar() {
                 {user.role === 'admin' && (
                   <>
                     <div className="dropdown-divider"></div>
+                    <Link to="/admin/dashboard">Dashboard</Link>
                     <Link to="/admin/products">Manage Products</Link>
                     <Link to="/admin/orders">Manage Orders</Link>
                   </>
