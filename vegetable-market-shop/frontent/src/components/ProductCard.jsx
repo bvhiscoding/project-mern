@@ -7,58 +7,58 @@ export default function ProductCard({ product }) {
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    dispatch(addToCart({
-      product: product._id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      quantity: 1,
-    }));
+    dispatch(
+      addToCart({
+        product: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      })
+    );
   };
 
   return (
-    <div className="product-card">
-      <Link to={`/product/${product._id}`} className="product-image-link">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="product-image"
-          onError={(e) => e.target.src = 'https://via.placeholder.com/300x200?text=No+Image'}
+    <article className="card overflow-hidden transition hover:-translate-y-0.5">
+      <Link to={`/product/${product._id}`} className="relative block">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="h-48 w-full object-cover"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/300x200?text=No+Image';
+          }}
         />
+        {product.featured ? (
+          <span className="absolute left-2 top-2 rounded bg-amber-500 px-2 py-1 text-xs font-semibold text-white">
+            Featured
+          </span>
+        ) : null}
       </Link>
-      
-      {product.featured && <span className="featured-badge">Featured</span>}
-      
-      <div className="product-info">
-        <Link to={`/product/${product._id}`} className="product-title">
-          <h3>{product.name}</h3>
+
+      <div className="space-y-2 p-4">
+        <Link to={`/product/${product._id}`}>
+          <h3 className="line-clamp-1 text-base font-semibold">{product.name}</h3>
         </Link>
-        
+
         <Rating value={product.rating} numReviews={product.numReviews} />
-        
-        <p className="product-description">{product.description}</p>
-        
-        <div className="product-footer">
-          <div className="price-info">
-            <span className="price">{product.price.toLocaleString()} VND</span>
-            <span className="unit">/{product.unit}</span>
-          </div>
-          
-          <button 
-            onClick={handleAddToCart} 
-            disabled={product.stock === 0}
-            className={`add-to-cart-btn ${product.stock === 0 ? 'disabled' : ''}`}
-          >
-            {product.stock > 0 ? '🛒 Add to Cart' : 'Out of Stock'}
+
+        <p className="line-clamp-2 text-sm text-slate-600">{product.description}</p>
+
+        <div className="flex items-end justify-between gap-2">
+          <p>
+            <span className="text-lg font-bold text-brand-700">{product.price.toLocaleString()} VND</span>{' '}
+            <span className="text-sm text-slate-500">/{product.unit}</span>
+          </p>
+          <button onClick={handleAddToCart} disabled={product.stock === 0} className="btn-primary">
+            {product.stock > 0 ? 'Add' : 'Sold out'}
           </button>
         </div>
-        
-        <div className="stock-info">
-          {product.stock > 0 && product.stock < 10 && (
-            <span className="low-stock">Only {product.stock} left!</span>
-          )}
-        </div>
+
+        {product.stock > 0 && product.stock < 10 ? (
+          <p className="text-xs font-medium text-rose-600">Only {product.stock} left</p>
+        ) : null}
       </div>
-    </div>
+    </article>
   );
 }

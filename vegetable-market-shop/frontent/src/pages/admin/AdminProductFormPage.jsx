@@ -54,14 +54,11 @@ export default function AdminProductFormPage() {
     loadProduct();
   }, [id, isEditMode]);
 
-  const onChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const onChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const submitHandler = async (e) => {
     e.preventDefault();
     setError('');
-
     if (!form.name || !form.description || !form.image) {
       setError('Please fill all required fields.');
       return;
@@ -69,18 +66,12 @@ export default function AdminProductFormPage() {
 
     try {
       setSubmitting(true);
-      const payload = {
-        ...form,
-        price: Number(form.price),
-        stock: Number(form.stock),
-      };
-
+      const payload = { ...form, price: Number(form.price), stock: Number(form.stock) };
       if (isEditMode) {
         await productService.updateProduct(id, payload);
       } else {
         await productService.createProduct(payload);
       }
-
       navigate('/admin/products');
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -92,73 +83,40 @@ export default function AdminProductFormPage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 700, margin: '0 auto', padding: '24px 16px' }}>
-        <h1>{isEditMode ? 'Edit Product' : 'Add Product'}</h1>
+      <main className="container-page max-w-3xl">
+        <div className="card p-6">
+          <h1>{isEditMode ? 'Edit Product' : 'Add Product'}</h1>
+          {loading ? <Loader /> : null}
+          {error ? <Message variant="error">{error}</Message> : null}
 
-        {loading ? <Loader /> : null}
-        {error ? <Message variant="error">{error}</Message> : null}
+          {!loading ? (
+            <form onSubmit={submitHandler} className="mt-4 space-y-4">
+              <input className="input" value={form.name} onChange={(e) => onChange('name', e.target.value)} placeholder="Name" required />
 
-        {!loading ? (
-          <form onSubmit={submitHandler} style={{ display: 'grid', gap: 12 }}>
-            <input value={form.name} onChange={(e) => onChange('name', e.target.value)} placeholder="Name" required />
+              <select className="input" value={form.type} onChange={(e) => onChange('type', e.target.value)}>
+                <option value="fruit">Fruit</option>
+                <option value="vegetable">Vegetable</option>
+              </select>
 
-            <select value={form.type} onChange={(e) => onChange('type', e.target.value)}>
-              <option value="fruit">Fruit</option>
-              <option value="vegetable">Vegetable</option>
-            </select>
+              <textarea className="input" rows="4" value={form.description} onChange={(e) => onChange('description', e.target.value)} placeholder="Description" required />
 
-            <textarea
-              rows="4"
-              value={form.description}
-              onChange={(e) => onChange('description', e.target.value)}
-              placeholder="Description"
-              required
-            />
+              <input className="input" type="number" min="0" step="0.01" value={form.price} onChange={(e) => onChange('price', e.target.value)} placeholder="Price" required />
+              <input className="input" value={form.image} onChange={(e) => onChange('image', e.target.value)} placeholder="Image URL" required />
+              <input className="input" type="number" min="0" value={form.stock} onChange={(e) => onChange('stock', e.target.value)} placeholder="Stock" required />
+              <input className="input" value={form.category} onChange={(e) => onChange('category', e.target.value)} placeholder="Category" required />
+              <input className="input" value={form.unit} onChange={(e) => onChange('unit', e.target.value)} placeholder="Unit" required />
 
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={form.price}
-              onChange={(e) => onChange('price', e.target.value)}
-              placeholder="Price"
-              required
-            />
+              <label className="flex items-center gap-2 text-sm text-slate-700">
+                <input type="checkbox" checked={form.featured} onChange={(e) => onChange('featured', e.target.checked)} />
+                Featured product
+              </label>
 
-            <input value={form.image} onChange={(e) => onChange('image', e.target.value)} placeholder="Image URL" required />
-
-            <input
-              type="number"
-              min="0"
-              value={form.stock}
-              onChange={(e) => onChange('stock', e.target.value)}
-              placeholder="Stock"
-              required
-            />
-
-            <input
-              value={form.category}
-              onChange={(e) => onChange('category', e.target.value)}
-              placeholder="Category"
-              required
-            />
-
-            <input value={form.unit} onChange={(e) => onChange('unit', e.target.value)} placeholder="Unit" required />
-
-            <label>
-              <input
-                type="checkbox"
-                checked={form.featured}
-                onChange={(e) => onChange('featured', e.target.checked)}
-              />{' '}
-              Featured product
-            </label>
-
-            <button type="submit" disabled={submitting}>
-              {submitting ? 'Saving...' : isEditMode ? 'Update Product' : 'Create Product'}
-            </button>
-          </form>
-        ) : null}
+              <button type="submit" disabled={submitting} className="btn-primary w-full sm:w-auto">
+                {submitting ? 'Saving...' : isEditMode ? 'Update Product' : 'Create Product'}
+              </button>
+            </form>
+          ) : null}
+        </div>
       </main>
       <Footer />
     </>

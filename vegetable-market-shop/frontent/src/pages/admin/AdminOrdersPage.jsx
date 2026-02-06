@@ -42,50 +42,48 @@ export default function AdminOrdersPage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
+      <main className="container-page space-y-4">
         <h1>Manage Orders</h1>
-
         {loading ? <Loader /> : null}
         {error ? <Message variant="error">{error}</Message> : null}
 
         {!loading && !error ? (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th align="left">ID</th>
-                <th align="left">User</th>
-                <th align="left">Date</th>
-                <th align="left">Total</th>
-                <th align="left">Status</th>
-                <th align="left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id} style={{ borderTop: '1px solid #ddd' }}>
-                  <td>{order._id.slice(-8)}</td>
-                  <td>{order.user?.name || '-'}</td>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td>{Number(order.totalPrice || 0).toLocaleString()} VND</td>
-                  <td>
-                    <select
-                      value={order.status}
-                      onChange={(e) => updateStatus(order._id, e.target.value)}
-                    >
-                      {STATUS_OPTIONS.map((status) => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    <Link to={`/order/${order._id}`}>View Details</Link>
-                  </td>
+          <div className="card overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-slate-100 text-slate-700">
+                <tr>
+                  <th className="px-3 py-2 text-left">ID</th>
+                  <th className="px-3 py-2 text-left">User</th>
+                  <th className="px-3 py-2 text-left">Date</th>
+                  <th className="px-3 py-2 text-left">Total</th>
+                  <th className="px-3 py-2 text-left">Status</th>
+                  <th className="px-3 py-2 text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id} className="border-t border-slate-200">
+                    <td className="px-3 py-2">{order._id.slice(-8)}</td>
+                    <td className="px-3 py-2">{order.user?.name || '-'}</td>
+                    <td className="px-3 py-2">{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td className="px-3 py-2">{Number(order.totalPrice || 0).toLocaleString()} VND</td>
+                    <td className="px-3 py-2">
+                      <select className="input max-w-40" value={order.status} onChange={(e) => updateStatus(order._id, e.target.value)}>
+                        {STATUS_OPTIONS.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="px-3 py-2">
+                      <Link to={`/order/${order._id}`}>View Details</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : null}
       </main>
       <Footer />

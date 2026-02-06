@@ -33,9 +33,7 @@ export default function AdminProductsPage() {
   }, []);
 
   const deleteHandler = async (id) => {
-    const ok = window.confirm('Delete this product?');
-    if (!ok) return;
-
+    if (!window.confirm('Delete this product?')) return;
     try {
       await productService.deleteProduct(id);
       await loadProducts(page);
@@ -47,10 +45,12 @@ export default function AdminProductsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <main className="container-page space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h1>Manage Products</h1>
-          <Link to="/admin/products/create">Add New Product</Link>
+          <Link to="/admin/products/create" className="btn-primary">
+            Add New Product
+          </Link>
         </div>
 
         {loading ? <Loader /> : null}
@@ -58,44 +58,52 @@ export default function AdminProductsPage() {
 
         {!loading && !error ? (
           <>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr>
-                  <th align="left">Image</th>
-                  <th align="left">Name</th>
-                  <th align="left">Type</th>
-                  <th align="left">Price</th>
-                  <th align="left">Stock</th>
-                  <th align="left">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product._id} style={{ borderTop: '1px solid #ddd' }}>
-                    <td>
-                      <img src={product.image} alt={product.name} style={{ width: 64, height: 64, objectFit: 'cover' }} />
-                    </td>
-                    <td>{product.name}</td>
-                    <td>{product.type}</td>
-                    <td>{Number(product.price || 0).toLocaleString()} VND</td>
-                    <td>{product.stock}</td>
-                    <td style={{ display: 'flex', gap: 8 }}>
-                      <Link to={`/admin/products/edit/${product._id}`}>Edit</Link>
-                      <button onClick={() => deleteHandler(product._id)}>Delete</button>
-                    </td>
+            <div className="card overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead className="bg-slate-100 text-slate-700">
+                  <tr>
+                    <th className="px-3 py-2 text-left">Image</th>
+                    <th className="px-3 py-2 text-left">Name</th>
+                    <th className="px-3 py-2 text-left">Type</th>
+                    <th className="px-3 py-2 text-left">Price</th>
+                    <th className="px-3 py-2 text-left">Stock</th>
+                    <th className="px-3 py-2 text-left">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {products.map((product) => (
+                    <tr key={product._id} className="border-t border-slate-200">
+                      <td className="px-3 py-2">
+                        <img src={product.image} alt={product.name} className="h-14 w-14 rounded object-cover" />
+                      </td>
+                      <td className="px-3 py-2">{product.name}</td>
+                      <td className="px-3 py-2 capitalize">{product.type}</td>
+                      <td className="px-3 py-2">{Number(product.price || 0).toLocaleString()} VND</td>
+                      <td className="px-3 py-2">{product.stock}</td>
+                      <td className="px-3 py-2">
+                        <div className="flex gap-2">
+                          <Link to={`/admin/products/edit/${product._id}`} className="btn-secondary">
+                            Edit
+                          </Link>
+                          <button onClick={() => deleteHandler(product._id)} className="btn-secondary text-rose-600">
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-            <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
-              <button onClick={() => loadProducts(page - 1)} disabled={page <= 1}>
+            <div className="flex items-center gap-2">
+              <button onClick={() => loadProducts(page - 1)} disabled={page <= 1} className="btn-secondary">
                 Previous
               </button>
-              <span>
+              <span className="text-sm text-slate-600">
                 Page {page} / {pages}
               </span>
-              <button onClick={() => loadProducts(page + 1)} disabled={page >= pages}>
+              <button onClick={() => loadProducts(page + 1)} disabled={page >= pages} className="btn-secondary">
                 Next
               </button>
             </div>

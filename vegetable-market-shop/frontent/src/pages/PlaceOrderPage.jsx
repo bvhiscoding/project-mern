@@ -20,7 +20,7 @@ export default function PlaceOrderPage() {
   const shippingAddress = useMemo(() => {
     try {
       return JSON.parse(localStorage.getItem('shippingAddress') || 'null');
-    } catch (err) {
+    } catch {
       return null;
     }
   }, []);
@@ -37,15 +37,8 @@ export default function PlaceOrderPage() {
 
   const placeOrderHandler = async () => {
     setLocalError('');
-
-    if (!shippingAddress) {
-      setLocalError('Shipping address is missing.');
-      return navigate('/shipping');
-    }
-    if (!paymentMethod) {
-      setLocalError('Payment method is missing.');
-      return navigate('/payment');
-    }
+    if (!shippingAddress) return navigate('/shipping');
+    if (!paymentMethod) return navigate('/payment');
     if (!items || items.length === 0) {
       setLocalError('Your cart is empty.');
       return;
@@ -82,78 +75,78 @@ export default function PlaceOrderPage() {
   return (
     <>
       <Navbar />
-
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
+      <main className="container-page space-y-4">
         <h1>Place Order</h1>
         {loading ? <Loader /> : null}
         {error ? <Message variant="error">{error}</Message> : null}
         {localError ? <Message variant="warning">{localError}</Message> : null}
 
-        <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 24 }}>
-          <div>
-            <article style={{ marginBottom: 16 }}>
+        <section className="grid items-start gap-6 lg:grid-cols-[2fr,1fr]">
+          <div className="space-y-4">
+            <article className="card p-4">
               <h2>Shipping</h2>
               {shippingAddress ? (
-                <p>
+                <p className="mt-2 text-sm text-slate-700">
                   {shippingAddress.address}, {shippingAddress.city}, {shippingAddress.postalCode},{' '}
                   {shippingAddress.country}
                 </p>
               ) : (
                 <Message variant="info">No shipping address.</Message>
               )}
-              <Link to="/shipping">Edit</Link>
+              <Link to="/shipping" className="mt-2 inline-block text-sm">
+                Edit
+              </Link>
             </article>
 
-            <article style={{ marginBottom: 16 }}>
+            <article className="card p-4">
               <h2>Payment</h2>
-              <p>{paymentMethod || 'No payment method selected.'}</p>
-              <Link to="/payment">Edit</Link>
+              <p className="mt-2 text-sm text-slate-700">{paymentMethod || 'No payment method selected.'}</p>
+              <Link to="/payment" className="mt-2 inline-block text-sm">
+                Edit
+              </Link>
             </article>
 
-            <article>
+            <article className="card p-4">
               <h2>Order Items</h2>
               {items.length === 0 ? (
                 <Message variant="info">No items in cart.</Message>
               ) : (
-                items.map((item) => (
-                  <div
-                    key={item.product}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '80px 1fr auto',
-                      gap: 8,
-                      marginBottom: 10,
-                    }}
-                  >
-                    <img src={item.image} alt={item.name} style={{ width: 80, height: 80, objectFit: 'cover' }} />
-                    <div>
-                      <Link to={`/product/${item.product}`}>{item.name}</Link>
-                      <p>
-                        {item.quantity} x {item.price.toLocaleString()} VND
-                      </p>
+                <div className="mt-3 space-y-3">
+                  {items.map((item) => (
+                    <div key={item.product} className="grid gap-3 sm:grid-cols-[80px,1fr,auto]">
+                      <img src={item.image} alt={item.name} className="h-20 w-20 rounded-md object-cover" />
+                      <div>
+                        <Link to={`/product/${item.product}`} className="font-medium text-slate-900">
+                          {item.name}
+                        </Link>
+                        <p className="text-sm text-slate-600">
+                          {item.quantity} x {item.price.toLocaleString()} VND
+                        </p>
+                      </div>
+                      <p className="text-sm font-semibold">{(item.quantity * item.price).toLocaleString()} VND</p>
                     </div>
-                    <p>{(item.quantity * item.price).toLocaleString()} VND</p>
-                  </div>
-                ))
+                  ))}
+                </div>
               )}
             </article>
           </div>
 
-          <aside style={{ border: '1px solid #ddd', padding: 16, height: 'fit-content' }}>
+          <aside className="card p-4 lg:sticky lg:top-24">
             <h2>Summary</h2>
-            <p>Items: {prices.itemsPrice.toLocaleString()} VND</p>
-            <p>Shipping: {prices.shippingPrice.toLocaleString()} VND</p>
-            <p>Tax: {prices.taxPrice.toLocaleString()} VND</p>
-            <p>
-              <strong>Total: {prices.total.toLocaleString()} VND</strong>
-            </p>
-            <button onClick={placeOrderHandler} disabled={items.length === 0 || loading}>
+            <div className="mt-3 space-y-2 text-sm text-slate-700">
+              <p>Items: {prices.itemsPrice.toLocaleString()} VND</p>
+              <p>Shipping: {prices.shippingPrice.toLocaleString()} VND</p>
+              <p>Tax: {prices.taxPrice.toLocaleString()} VND</p>
+              <p className="pt-1 text-base font-semibold text-slate-900">
+                Total: {prices.total.toLocaleString()} VND
+              </p>
+            </div>
+            <button onClick={placeOrderHandler} disabled={items.length === 0 || loading} className="btn-primary mt-4 w-full">
               Place Order
             </button>
           </aside>
         </section>
       </main>
-
       <Footer />
     </>
   );

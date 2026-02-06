@@ -15,16 +15,16 @@ export default function SearchBox() {
   };
 
   return (
-    <form className="search-box" onSubmit={submitHandler}>
+    <form onSubmit={submitHandler} className="mt-4 flex w-full max-w-2xl">
       <input
         type="text"
         placeholder="Search products..."
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-        className="search-input"
+        className="input rounded-r-none"
       />
-      <button type="submit" className="search-button">
-        🔍
+      <button type="submit" className="btn-primary rounded-l-none px-5">
+        Search
       </button>
     </form>
   );

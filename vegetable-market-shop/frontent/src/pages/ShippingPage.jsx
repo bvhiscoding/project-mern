@@ -24,9 +24,7 @@ export default function ShippingPage() {
     }
   }, []);
 
-  const onChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const onChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -37,30 +35,19 @@ export default function ShippingPage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 620, margin: '0 auto', padding: '24px 16px' }}>
-        <h1>Shipping Address</h1>
-        <form onSubmit={submitHandler} style={{ display: 'grid', gap: 12 }}>
-          <input
-            value={form.address}
-            onChange={(e) => onChange('address', e.target.value)}
-            placeholder="Address"
-            required
-          />
-          <input value={form.city} onChange={(e) => onChange('city', e.target.value)} placeholder="City" required />
-          <input
-            value={form.postalCode}
-            onChange={(e) => onChange('postalCode', e.target.value)}
-            placeholder="Postal Code"
-            required
-          />
-          <input
-            value={form.country}
-            onChange={(e) => onChange('country', e.target.value)}
-            placeholder="Country"
-            required
-          />
-          <button type="submit">Continue to Payment</button>
-        </form>
+      <main className="container-page max-w-2xl">
+        <div className="card p-6">
+          <h1>Shipping Address</h1>
+          <form onSubmit={submitHandler} className="mt-4 space-y-4">
+            <input className="input" value={form.address} onChange={(e) => onChange('address', e.target.value)} placeholder="Address" required />
+            <input className="input" value={form.city} onChange={(e) => onChange('city', e.target.value)} placeholder="City" required />
+            <input className="input" value={form.postalCode} onChange={(e) => onChange('postalCode', e.target.value)} placeholder="Postal Code" required />
+            <input className="input" value={form.country} onChange={(e) => onChange('country', e.target.value)} placeholder="Country" required />
+            <button type="submit" className="btn-primary w-full sm:w-auto">
+              Continue to Payment
+            </button>
+          </form>
+        </div>
       </main>
       <Footer />
     </>

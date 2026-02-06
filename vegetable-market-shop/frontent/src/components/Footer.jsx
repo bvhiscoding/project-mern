@@ -1,33 +1,41 @@
 export default function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section">
-          <h3>Vegetable Market Shop</h3>
-          <p>Fresh fruits and vegetables delivered to your door</p>
-        </div>
-        
-        <div className="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/privacy">Privacy Policy</a></li>
+    <footer className="mt-12 border-t border-slate-200 bg-white">
+      <div className="container-page grid gap-6 md:grid-cols-3">
+        <section>
+          <h3 className="text-base">Vegetable Market Shop</h3>
+          <p className="mt-2 text-sm text-slate-600">
+            Fresh fruits and vegetables delivered to your door.
+          </p>
+        </section>
+
+        <section>
+          <h3 className="text-base">Quick Links</h3>
+          <ul className="mt-2 space-y-1 text-sm">
+            <li>
+              <a href="/about">About Us</a>
+            </li>
+            <li>
+              <a href="/contact">Contact</a>
+            </li>
+            <li>
+              <a href="/privacy">Privacy Policy</a>
+            </li>
           </ul>
-        </div>
-        
-        <div className="footer-section">
-          <h4>Follow Us</h4>
-          <div className="social-links">
-            <span>📘 Facebook</span>
-            <span>📷 Instagram</span>
-            <span>🐦 Twitter</span>
+        </section>
+
+        <section>
+          <h3 className="text-base">Follow Us</h3>
+          <div className="mt-2 space-y-1 text-sm text-slate-600">
+            <p>Facebook</p>
+            <p>Instagram</p>
+            <p>Twitter</p>
           </div>
-        </div>
+        </section>
       </div>
-      
-      <div className="footer-bottom">
-        <p>&copy; 2026 Vegetable Market Shop. All rights reserved.</p>
+
+      <div className="border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 Vegetable Market Shop. All rights reserved.</p>
       </div>
     </footer>
   );

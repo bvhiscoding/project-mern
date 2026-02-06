@@ -92,7 +92,9 @@ export default function ProductDetailPage() {
     return (
       <>
         <Navbar />
-        <Message variant="error">{error}</Message>
+        <main className="container-page">
+          <Message variant="error">{error}</Message>
+        </main>
       </>
     );
   }
@@ -101,7 +103,9 @@ export default function ProductDetailPage() {
     return (
       <>
         <Navbar />
-        <Message variant="warning">Product not found.</Message>
+        <main className="container-page">
+          <Message variant="warning">Product not found.</Message>
+        </main>
       </>
     );
   }
@@ -112,49 +116,52 @@ export default function ProductDetailPage() {
     <>
       <Navbar />
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
-        <button onClick={() => navigate(-1)} style={{ marginBottom: 12 }}>
+      <main className="container-page space-y-8">
+        <button onClick={() => navigate(-1)} className="btn-secondary">
           Back
         </button>
 
-        <section
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 24,
-            marginBottom: 24,
-          }}
-        >
-          <div>
+        <section className="grid gap-6 lg:grid-cols-2">
+          <div className="card overflow-hidden">
             <img
               src={product.image}
               alt={product.name}
-              style={{ width: '100%', maxHeight: 420, objectFit: 'cover' }}
+              className="h-full max-h-[500px] w-full object-cover"
               onError={(e) => {
                 e.target.src = 'https://via.placeholder.com/600x400?text=No+Image';
               }}
             />
           </div>
 
-          <div>
+          <div className="card space-y-4 p-5">
             <h1>{product.name}</h1>
-            <p>Type: {product.type}</p>
+            <p className="text-sm text-slate-600">Type: {product.type}</p>
             <Rating value={product.rating} numReviews={product.numReviews} />
+
             <p>
-              <strong>Price:</strong> {product.price.toLocaleString()} VND/{product.unit}
+              <span className="text-2xl font-bold text-brand-700">{product.price.toLocaleString()} VND</span>{' '}
+              <span className="text-slate-500">/{product.unit}</span>
             </p>
-            <p>{product.description}</p>
-            <p>
-              <strong>Status:</strong> {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+
+            <p className="text-slate-700">{product.description}</p>
+
+            <p className="text-sm">
+              <span className="font-medium">Status: </span>
+              <span className={product.stock > 0 ? 'text-emerald-700' : 'text-rose-700'}>
+                {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+              </span>
             </p>
 
             {product.stock > 0 ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12 }}>
-                <label htmlFor="qty">Quantity</label>
+              <div className="flex items-center gap-3">
+                <label htmlFor="qty" className="label mb-0">
+                  Quantity
+                </label>
                 <select
                   id="qty"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="input max-w-24"
                 >
                   {[...Array(maxQty).keys()].map((x) => (
                     <option key={x + 1} value={x + 1}>
@@ -162,60 +169,79 @@ export default function ProductDetailPage() {
                     </option>
                   ))}
                 </select>
-                <button onClick={handleAddToCart}>Add to Cart</button>
+                <button onClick={handleAddToCart} className="btn-primary">
+                  Add to Cart
+                </button>
               </div>
             ) : null}
           </div>
         </section>
 
-        <section>
+        <section className="card p-5">
           <h2>Reviews</h2>
-          {reviews.length === 0 ? <Message variant="info">No reviews yet.</Message> : null}
-          {reviews.map((review) => (
-            <article key={review._id} style={{ marginBottom: 12 }}>
-              <strong>{review.user?.name || 'User'}</strong>
-              <p>{review.rating}/5</p>
-              <p>{review.comment}</p>
-              <small>{new Date(review.createdAt).toLocaleDateString()}</small>
-            </article>
-          ))}
 
-          {user ? (
-            <form onSubmit={handleSubmitReview} style={{ marginTop: 16 }}>
-              <h3>Write a Review</h3>
-              <div>
-                <label htmlFor="rating">Rating</label>
-                <select
-                  id="rating"
-                  value={reviewRating}
-                  onChange={(e) => setReviewRating(e.target.value)}
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div style={{ marginTop: 8 }}>
-                <label htmlFor="comment">Comment</label>
-                <textarea
-                  id="comment"
-                  rows="4"
-                  value={reviewComment}
-                  onChange={(e) => setReviewComment(e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" style={{ marginTop: 8 }}>
-                Submit Review
-              </button>
-            </form>
-          ) : (
-            <Message variant="info">Please login to write a review.</Message>
-          )}
+          <div className="mt-4 space-y-4">
+            {reviews.length === 0 ? <Message variant="info">No reviews yet.</Message> : null}
+            {reviews.map((review) => (
+              <article key={review._id} className="rounded-lg border border-slate-200 p-3">
+                <strong>{review.user?.name || 'User'}</strong>
+                <p className="text-sm text-slate-500">{review.rating}/5</p>
+                <p className="mt-1 text-sm">{review.comment}</p>
+                <small className="text-xs text-slate-500">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </small>
+              </article>
+            ))}
+          </div>
 
-          {reviewMessage ? <Message variant="info">{reviewMessage}</Message> : null}
+          <div className="mt-6">
+            {user ? (
+              <form onSubmit={handleSubmitReview} className="space-y-3">
+                <h3>Write a Review</h3>
+                <div>
+                  <label htmlFor="rating" className="label">
+                    Rating
+                  </label>
+                  <select
+                    id="rating"
+                    value={reviewRating}
+                    onChange={(e) => setReviewRating(e.target.value)}
+                    className="input max-w-28"
+                  >
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="comment" className="label">
+                    Comment
+                  </label>
+                  <textarea
+                    id="comment"
+                    rows="4"
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    className="input"
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn-primary">
+                  Submit Review
+                </button>
+              </form>
+            ) : (
+              <Message variant="info">Please login to write a review.</Message>
+            )}
+          </div>
+
+          {reviewMessage ? (
+            <div className="mt-4">
+              <Message variant="info">{reviewMessage}</Message>
+            </div>
+          ) : null}
         </section>
       </main>
 

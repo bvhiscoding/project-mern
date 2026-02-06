@@ -22,19 +22,28 @@ export default function HomePage() {
     <>
       <Navbar />
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
-        <section style={{ marginBottom: 24 }}>
-          <h1>Fresh Fruits and Vegetables Every Day</h1>
-          <p>Healthy produce with reliable quality and fast delivery.</p>
-          <div style={{ marginTop: 12, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <Link to="/products">View All Products</Link>
-            <Link to="/products?type=fruit">Shop Fruits</Link>
-            <Link to="/products?type=vegetable">Shop Vegetables</Link>
+      <main className="container-page">
+        <section className="card bg-gradient-to-br from-brand-50 to-white p-6 md:p-10">
+          <h1 className="max-w-2xl">Fresh Fruits and Vegetables Every Day</h1>
+          <p className="mt-3 max-w-2xl text-slate-600">
+            Healthy produce with reliable quality and fast delivery.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link to="/products" className="btn-primary">
+              View All Products
+            </Link>
+            <Link to="/products?type=fruit" className="btn-secondary">
+              Shop Fruits
+            </Link>
+            <Link to="/products?type=vegetable" className="btn-secondary">
+              Shop Vegetables
+            </Link>
           </div>
         </section>
 
-        <section>
+        <section className="mt-8">
           <h2>Featured Products</h2>
+
           {loading ? <Loader /> : null}
           {!loading && error ? <Message variant="error">{error}</Message> : null}
           {!loading && !error && featuredProducts.length === 0 ? (
@@ -42,14 +51,7 @@ export default function HomePage() {
           ) : null}
 
           {!loading && !error && featuredProducts.length > 0 ? (
-            <div
-              style={{
-                marginTop: 16,
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: 16,
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

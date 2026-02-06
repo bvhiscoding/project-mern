@@ -24,7 +24,7 @@ export default function CartPage() {
     <>
       <Navbar />
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
+      <main className="container-page">
         <h1>Shopping Cart</h1>
 
         {items.length === 0 ? (
@@ -32,37 +32,20 @@ export default function CartPage() {
             Your cart is empty. <Link to="/products">Go to products</Link>
           </Message>
         ) : (
-          <section
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '2fr 1fr',
-              gap: 24,
-              alignItems: 'start',
-            }}
-          >
-            <div>
+          <section className="mt-4 grid items-start gap-6 lg:grid-cols-[2fr,1fr]">
+            <div className="space-y-3">
               {items.map((item) => (
-                <article
-                  key={item.product}
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '96px 1fr auto',
-                    gap: 12,
-                    marginBottom: 12,
-                    paddingBottom: 12,
-                    borderBottom: '1px solid #ddd',
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: 96, height: 96, objectFit: 'cover' }}
-                  />
+                <article key={item.product} className="card grid gap-3 p-3 sm:grid-cols-[96px,1fr,auto]">
+                  <img src={item.image} alt={item.name} className="h-24 w-24 rounded-md object-cover" />
 
                   <div>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                    <p>{item.price.toLocaleString()} VND</p>
-                    <label htmlFor={`qty-${item.product}`}>Qty</label>
+                    <Link to={`/product/${item.product}`} className="font-medium text-slate-900">
+                      {item.name}
+                    </Link>
+                    <p className="text-sm text-slate-600">{item.price.toLocaleString()} VND</p>
+                    <label htmlFor={`qty-${item.product}`} className="label mt-2">
+                      Qty
+                    </label>
                     <select
                       id={`qty-${item.product}`}
                       value={item.quantity}
@@ -74,6 +57,7 @@ export default function CartPage() {
                           })
                         )
                       }
+                      className="input max-w-24"
                     >
                       {[...Array(10).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>
@@ -83,19 +67,25 @@ export default function CartPage() {
                     </select>
                   </div>
 
-                  <div>
-                    <p>{(item.price * item.quantity).toLocaleString()} VND</p>
-                    <button onClick={() => dispatch(removeFromCart(item.product))}>Remove</button>
+                  <div className="flex flex-col items-end gap-2">
+                    <p className="font-semibold">{(item.price * item.quantity).toLocaleString()} VND</p>
+                    <button className="btn-secondary" onClick={() => dispatch(removeFromCart(item.product))}>
+                      Remove
+                    </button>
                   </div>
                 </article>
               ))}
             </div>
 
-            <aside style={{ border: '1px solid #ddd', padding: 16 }}>
+            <aside className="card p-4 lg:sticky lg:top-24">
               <h2>Summary</h2>
-              <p>Total Items: {itemsCount}</p>
-              <p>Total Price: {totalPrice.toLocaleString()} VND</p>
-              <button onClick={handleCheckout} disabled={items.length === 0}>
+              <div className="mt-3 space-y-2 text-sm">
+                <p>Total Items: {itemsCount}</p>
+                <p>
+                  Total Price: <span className="font-semibold">{totalPrice.toLocaleString()} VND</span>
+                </p>
+              </div>
+              <button onClick={handleCheckout} disabled={items.length === 0} className="btn-primary mt-4 w-full">
                 Proceed to Checkout
               </button>
             </aside>

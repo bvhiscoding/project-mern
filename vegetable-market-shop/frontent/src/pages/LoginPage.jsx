@@ -19,15 +19,11 @@ export default function LoginPage() {
   const redirect = searchParams.get('redirect') || '/';
 
   useEffect(() => {
-    if (user) {
-      navigate(redirect);
-    }
+    if (user) navigate(redirect);
   }, [user, navigate, redirect]);
 
   useEffect(() => {
-    return () => {
-      dispatch(clearAuthError());
-    };
+    return () => dispatch(clearAuthError());
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -38,46 +34,51 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
+      <main className="container-page max-w-lg">
+        <div className="card p-6">
+          <h1>Login</h1>
+          {error ? <Message variant="error">{error}</Message> : null}
+          {loading ? <Loader /> : null}
 
-      <main style={{ maxWidth: 520, margin: '0 auto', padding: '24px 16px' }}>
-        <h1>Login</h1>
+          <form onSubmit={submitHandler} className="mt-4 space-y-4">
+            <div>
+              <label htmlFor="email" className="label">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
 
-        {error ? <Message variant="error">{error}</Message> : null}
-        {loading ? <Loader /> : null}
+            <div>
+              <label htmlFor="password" className="label">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
 
-        <form onSubmit={submitHandler} style={{ display: 'grid', gap: 12 }}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+            <button type="submit" disabled={loading} className="btn-primary w-full">
+              Login
+            </button>
+          </form>
 
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit" disabled={loading}>
-            Login
-          </button>
-        </form>
-
-        <p style={{ marginTop: 12 }}>
-          New Customer? <Link to="/register">Register</Link>
-        </p>
+          <p className="mt-4 text-sm text-slate-600">
+            New Customer? <Link to="/register">Register</Link>
+          </p>
+        </div>
       </main>
-
       <Footer />
     </>
   );

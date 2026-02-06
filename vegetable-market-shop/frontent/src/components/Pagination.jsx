@@ -12,30 +12,35 @@ export default function Pagination({ page, pages, keyword = '', type = '' }) {
   if (pages <= 1) return null;
 
   return (
-    <div className="pagination">
-      {page > 1 && (
-        <Link to={buildUrl(page - 1)} className="pagination-btn">
-          ← Previous
+    <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+      {page > 1 ? (
+        <Link to={buildUrl(page - 1)} className="btn-secondary">
+          Previous
         </Link>
-      )}
+      ) : null}
 
-      <div className="pagination-numbers">
-        {[...Array(pages).keys()].map((x) => (
+      {[...Array(pages).keys()].map((x) => {
+        const current = x + 1 === page;
+        return (
           <Link
             key={x + 1}
             to={buildUrl(x + 1)}
-            className={`pagination-number ${x + 1 === page ? 'active' : ''}`}
+            className={
+              current
+                ? 'btn h-9 min-w-9 bg-brand-500 px-3 text-white hover:bg-brand-600'
+                : 'btn-secondary h-9 min-w-9 px-3'
+            }
           >
             {x + 1}
           </Link>
-        ))}
-      </div>
+        );
+      })}
 
-      {page < pages && (
-        <Link to={buildUrl(page + 1)} className="pagination-btn">
-          Next →
+      {page < pages ? (
+        <Link to={buildUrl(page + 1)} className="btn-secondary">
+          Next
         </Link>
-      )}
+      ) : null}
     </div>
   );
 }

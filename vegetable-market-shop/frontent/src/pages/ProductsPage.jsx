@@ -37,18 +37,26 @@ export default function ProductsPage() {
     <>
       <Navbar />
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
+      <main className="container-page">
         <h1>All Products</h1>
         <SearchBox />
 
-        <section style={{ marginTop: 16, marginBottom: 16, display: 'flex', gap: 8 }}>
-          <button onClick={() => setTypeFilter('')} disabled={!type}>
+        <section className="mt-4 flex flex-wrap gap-2">
+          <button onClick={() => setTypeFilter('')} disabled={!type} className="btn-secondary">
             All
           </button>
-          <button onClick={() => setTypeFilter('fruit')} disabled={type === 'fruit'}>
+          <button
+            onClick={() => setTypeFilter('fruit')}
+            disabled={type === 'fruit'}
+            className="btn-secondary"
+          >
             Fruits
           </button>
-          <button onClick={() => setTypeFilter('vegetable')} disabled={type === 'vegetable'}>
+          <button
+            onClick={() => setTypeFilter('vegetable')}
+            disabled={type === 'vegetable'}
+            className="btn-secondary"
+          >
             Vegetables
           </button>
         </section>
@@ -61,14 +69,7 @@ export default function ProductsPage() {
 
         {!loading && !error && products.length > 0 ? (
           <>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-                gap: 16,
-                marginTop: 12,
-              }}
-            >
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

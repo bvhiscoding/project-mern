@@ -18,43 +18,44 @@ export default function MyOrdersPage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 16px' }}>
+      <main className="container-page space-y-4">
         <h1>My Orders</h1>
 
         {loading ? <Loader /> : null}
         {error ? <Message variant="error">{error}</Message> : null}
-
         {!loading && !error && orders.length === 0 ? (
           <Message variant="info">You have no orders yet.</Message>
         ) : null}
 
         {!loading && !error && orders.length > 0 ? (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th align="left">ID</th>
-                <th align="left">Date</th>
-                <th align="left">Total</th>
-                <th align="left">Paid</th>
-                <th align="left">Delivered</th>
-                <th align="left">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders.map((order) => (
-                <tr key={order._id} style={{ borderTop: '1px solid #ddd' }}>
-                  <td>{order._id.slice(-8)}</td>
-                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                  <td>{Number(order.totalPrice || 0).toLocaleString()} VND</td>
-                  <td>{order.isPaid ? 'Paid' : 'Not paid'}</td>
-                  <td>{order.isDelivered ? 'Delivered' : 'Pending'}</td>
-                  <td>
-                    <Link to={`/order/${order._id}`}>View</Link>
-                  </td>
+          <div className="card overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-slate-100 text-slate-700">
+                <tr>
+                  <th className="px-3 py-2 text-left">ID</th>
+                  <th className="px-3 py-2 text-left">Date</th>
+                  <th className="px-3 py-2 text-left">Total</th>
+                  <th className="px-3 py-2 text-left">Paid</th>
+                  <th className="px-3 py-2 text-left">Delivered</th>
+                  <th className="px-3 py-2 text-left">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {orders.map((order) => (
+                  <tr key={order._id} className="border-t border-slate-200">
+                    <td className="px-3 py-2">{order._id.slice(-8)}</td>
+                    <td className="px-3 py-2">{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td className="px-3 py-2">{Number(order.totalPrice || 0).toLocaleString()} VND</td>
+                    <td className="px-3 py-2">{order.isPaid ? 'Paid' : 'Not paid'}</td>
+                    <td className="px-3 py-2">{order.isDelivered ? 'Delivered' : 'Pending'}</td>
+                    <td className="px-3 py-2">
+                      <Link to={`/order/${order._id}`}>View</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : null}
       </main>
       <Footer />

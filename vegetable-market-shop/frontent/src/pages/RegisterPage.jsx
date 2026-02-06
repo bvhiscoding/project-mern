@@ -18,7 +18,6 @@ const initialAddress = {
 export default function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { user, loading, error } = useSelector((state) => state.auth);
 
   const [name, setName] = useState('');
@@ -30,20 +29,14 @@ export default function RegisterPage() {
   const [localError, setLocalError] = useState('');
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
+    if (user) navigate('/');
   }, [user, navigate]);
 
   useEffect(() => {
-    return () => {
-      dispatch(clearAuthError());
-    };
+    return () => dispatch(clearAuthError());
   }, [dispatch]);
 
-  const updateAddress = (key, value) => {
-    setAddress((prev) => ({ ...prev, [key]: value }));
-  };
+  const updateAddress = (key, value) => setAddress((prev) => ({ ...prev, [key]: value }));
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -53,157 +46,95 @@ export default function RegisterPage() {
       setLocalError('Passwords do not match.');
       return;
     }
-
     if (password.length < 6) {
       setLocalError('Password must be at least 6 characters.');
       return;
     }
 
-    dispatch(
-      register({
-        name,
-        email,
-        password,
-        phone,
-        address,
-      })
-    );
+    dispatch(register({ name, email, password, phone, address }));
   };
 
   return (
     <>
       <Navbar />
+      <main className="container-page max-w-2xl">
+        <div className="card p-6">
+          <h1>Register</h1>
+          {localError ? <Message variant="error">{localError}</Message> : null}
+          {error ? <Message variant="error">{error}</Message> : null}
+          {loading ? <Loader /> : null}
 
-      <main style={{ maxWidth: 640, margin: '0 auto', padding: '24px 16px' }}>
-        <h1>Register</h1>
-
-        {localError ? <Message variant="error">{localError}</Message> : null}
-        {error ? <Message variant="error">{error}</Message> : null}
-        {loading ? <Loader /> : null}
-
-        <form onSubmit={submitHandler} style={{ display: 'grid', gap: 12 }}>
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="street">Street</label>
-            <input
-              id="street"
-              type="text"
-              value={address.street}
-              onChange={(e) => updateAddress('street', e.target.value)}
-              required
-            />
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <form onSubmit={submitHandler} className="mt-4 space-y-4">
             <div>
-              <label htmlFor="city">City</label>
+              <label className="label">Name</label>
+              <input className="input" value={name} onChange={(e) => setName(e.target.value)} required />
+            </div>
+            <div>
+              <label className="label">Email</label>
+              <input className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+            <div>
+              <label className="label">Phone</label>
+              <input className="input" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            </div>
+            <div>
+              <label className="label">Street</label>
+              <input className="input" value={address.street} onChange={(e) => updateAddress('street', e.target.value)} required />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <label className="label">City</label>
+                <input className="input" value={address.city} onChange={(e) => updateAddress('city', e.target.value)} required />
+              </div>
+              <div>
+                <label className="label">State</label>
+                <input className="input" value={address.state} onChange={(e) => updateAddress('state', e.target.value)} required />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <label className="label">Zip Code</label>
+                <input className="input" value={address.zipCode} onChange={(e) => updateAddress('zipCode', e.target.value)} required />
+              </div>
+              <div>
+                <label className="label">Country</label>
+                <input className="input" value={address.country} onChange={(e) => updateAddress('country', e.target.value)} required />
+              </div>
+            </div>
+
+            <div>
+              <label className="label">Password</label>
               <input
-                id="city"
-                type="text"
-                value={address.city}
-                onChange={(e) => updateAddress('city', e.target.value)}
+                className="input"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
             <div>
-              <label htmlFor="state">State</label>
+              <label className="label">Confirm Password</label>
               <input
-                id="state"
-                type="text"
-                value={address.state}
-                onChange={(e) => updateAddress('state', e.target.value)}
+                className="input"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
             </div>
-          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <div>
-              <label htmlFor="zipCode">Zip Code</label>
-              <input
-                id="zipCode"
-                type="text"
-                value={address.zipCode}
-                onChange={(e) => updateAddress('zipCode', e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="country">Country</label>
-              <input
-                id="country"
-                type="text"
-                value={address.country}
-                onChange={(e) => updateAddress('country', e.target.value)}
-                required
-              />
-            </div>
-          </div>
+            <button type="submit" disabled={loading} className="btn-primary w-full">
+              Register
+            </button>
+          </form>
 
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button type="submit" disabled={loading}>
-            Register
-          </button>
-        </form>
-
-        <p style={{ marginTop: 12 }}>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
+          <p className="mt-4 text-sm text-slate-600">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </main>
-
       <Footer />
     </>
   );

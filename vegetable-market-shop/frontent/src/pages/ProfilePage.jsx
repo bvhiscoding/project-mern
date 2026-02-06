@@ -25,30 +25,25 @@ export default function ProfilePage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if (!user) {
-      dispatch(getProfile());
-    }
+    if (!user) dispatch(getProfile());
   }, [dispatch, user]);
 
   useEffect(() => {
-    if (user) {
-      setForm((prev) => ({
-        ...prev,
-        name: user.name || '',
-        email: user.email || '',
-        phone: user.phone || '',
-        street: user.address?.street || '',
-        city: user.address?.city || '',
-        state: user.address?.state || '',
-        zipCode: user.address?.zipCode || '',
-        country: user.address?.country || 'Vietnam',
-      }));
-    }
+    if (!user) return;
+    setForm((prev) => ({
+      ...prev,
+      name: user.name || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      street: user.address?.street || '',
+      city: user.address?.city || '',
+      state: user.address?.state || '',
+      zipCode: user.address?.zipCode || '',
+      country: user.address?.country || 'Vietnam',
+    }));
   }, [user]);
 
-  const onChange = (key, value) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const onChange = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -71,7 +66,6 @@ export default function ProfilePage() {
         country: form.country,
       },
     };
-
     if (form.password) payload.password = form.password;
 
     const result = await dispatch(updateProfile(payload));
@@ -84,32 +78,39 @@ export default function ProfilePage() {
   return (
     <>
       <Navbar />
-      <main style={{ maxWidth: 720, margin: '0 auto', padding: '24px 16px' }}>
-        <h1>My Profile</h1>
-        {loading ? <Loader /> : null}
-        {error ? <Message variant="error">{error}</Message> : null}
-        {message ? <Message variant="info">{message}</Message> : null}
+      <main className="container-page max-w-3xl">
+        <div className="card p-6">
+          <h1>My Profile</h1>
+          {loading ? <Loader /> : null}
+          {error ? <Message variant="error">{error}</Message> : null}
+          {message ? <Message variant="info">{message}</Message> : null}
 
-        <form onSubmit={submitHandler} style={{ display: 'grid', gap: 12 }}>
-          <input value={form.name} onChange={(e) => onChange('name', e.target.value)} placeholder="Name" required />
-          <input value={form.email} onChange={(e) => onChange('email', e.target.value)} placeholder="Email" type="email" required />
-          <input value={form.phone} onChange={(e) => onChange('phone', e.target.value)} placeholder="Phone" required />
-          <input value={form.street} onChange={(e) => onChange('street', e.target.value)} placeholder="Street" required />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <input value={form.city} onChange={(e) => onChange('city', e.target.value)} placeholder="City" required />
-            <input value={form.state} onChange={(e) => onChange('state', e.target.value)} placeholder="State" required />
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <input value={form.zipCode} onChange={(e) => onChange('zipCode', e.target.value)} placeholder="Zip code" required />
-            <input value={form.country} onChange={(e) => onChange('country', e.target.value)} placeholder="Country" required />
-          </div>
+          <form onSubmit={submitHandler} className="mt-4 space-y-4">
+            <input className="input" value={form.name} onChange={(e) => onChange('name', e.target.value)} placeholder="Name" required />
+            <input className="input" value={form.email} onChange={(e) => onChange('email', e.target.value)} placeholder="Email" type="email" required />
+            <input className="input" value={form.phone} onChange={(e) => onChange('phone', e.target.value)} placeholder="Phone" required />
+            <input className="input" value={form.street} onChange={(e) => onChange('street', e.target.value)} placeholder="Street" required />
 
-          <hr />
-          <input value={form.password} onChange={(e) => onChange('password', e.target.value)} placeholder="New Password" type="password" />
-          <input value={form.confirmPassword} onChange={(e) => onChange('confirmPassword', e.target.value)} placeholder="Confirm Password" type="password" />
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <input className="input" value={form.city} onChange={(e) => onChange('city', e.target.value)} placeholder="City" required />
+              <input className="input" value={form.state} onChange={(e) => onChange('state', e.target.value)} placeholder="State" required />
+            </div>
 
-          <button type="submit" disabled={loading}>Update Profile</button>
-        </form>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <input className="input" value={form.zipCode} onChange={(e) => onChange('zipCode', e.target.value)} placeholder="Zip code" required />
+              <input className="input" value={form.country} onChange={(e) => onChange('country', e.target.value)} placeholder="Country" required />
+            </div>
+
+            <hr className="border-slate-200" />
+
+            <input className="input" value={form.password} onChange={(e) => onChange('password', e.target.value)} placeholder="New Password" type="password" />
+            <input className="input" value={form.confirmPassword} onChange={(e) => onChange('confirmPassword', e.target.value)} placeholder="Confirm Password" type="password" />
+
+            <button type="submit" disabled={loading} className="btn-primary w-full sm:w-auto">
+              Update Profile
+            </button>
+          </form>
+        </div>
       </main>
       <Footer />
     </>
