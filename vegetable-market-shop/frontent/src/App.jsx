@@ -1,5 +1,5 @@
-import { Navigate, Outlet, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -16,50 +16,40 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminProductsPage from './pages/admin/AdminProductsPage';
 import AdminProductFormPage from './pages/admin/AdminProductFormPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
-
-function ProtectedRoute() {
-  const { user, token } = useSelector((state) => state.auth);
-  if (!user && !token) {
-    return <Navigate to="/login" replace />;
-  }
-  return <Outlet />;
-}
-
-function AdminRoute() {
-  const { user } = useSelector((state) => state.auth);
-  if (!user || user.role !== 'admin') {
-    return <Navigate to="/" replace />;
-  }
-  return <Outlet />;
-}
+import PrivateRoute from './components/PrivateRoute';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/product/:id" element={<ProductDetailPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/cart" element={<CartPage />} />
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/cart" element={<CartPage />} />
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/shipping" element={<ShippingPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/placeorder" element={<PlaceOrderPage />} />
-        <Route path="/orders" element={<MyOrdersPage />} />
-        <Route path="/order/:id" element={<OrderDetailPage />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/placeorder" element={<PlaceOrderPage />} />
+          <Route path="/orders" element={<MyOrdersPage />} />
+          <Route path="/myorders" element={<MyOrdersPage />} />
+          <Route path="/order/:id" element={<OrderDetailPage />} />
 
-        <Route element={<AdminRoute />}>
-          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-          <Route path="/admin/products" element={<AdminProductsPage />} />
-          <Route path="/admin/products/create" element={<AdminProductFormPage />} />
-          <Route path="/admin/products/edit/:id" element={<AdminProductFormPage />} />
-          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/products" element={<AdminProductsPage />} />
+            <Route path="/admin/products/create" element={<AdminProductFormPage />} />
+            <Route path="/admin/products/edit/:id" element={<AdminProductFormPage />} />
+            <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+      <ToastContainer position="top-right" autoClose={2500} />
+    </>
   );
 }
 
