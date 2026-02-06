@@ -58,29 +58,29 @@ export default function AdminProductsPage() {
 
         {!loading && !error ? (
           <>
-            <div className="card overflow-x-auto">
-              <table className="min-w-full text-sm">
-                <thead className="bg-slate-100 text-slate-700">
+            <div className="table-shell">
+              <table className="table-base">
+                <thead>
                   <tr>
-                    <th className="px-3 py-2 text-left">Image</th>
-                    <th className="px-3 py-2 text-left">Name</th>
-                    <th className="px-3 py-2 text-left">Type</th>
-                    <th className="px-3 py-2 text-left">Price</th>
-                    <th className="px-3 py-2 text-left">Stock</th>
-                    <th className="px-3 py-2 text-left">Actions</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {products.map((product) => (
-                    <tr key={product._id} className="border-t border-slate-200">
-                      <td className="px-3 py-2">
+                    <tr key={product._id}>
+                      <td>
                         <img src={product.image} alt={product.name} className="h-14 w-14 rounded object-cover" />
                       </td>
-                      <td className="px-3 py-2">{product.name}</td>
-                      <td className="px-3 py-2 capitalize">{product.type}</td>
-                      <td className="px-3 py-2">{Number(product.price || 0).toLocaleString()} VND</td>
-                      <td className="px-3 py-2">{product.stock}</td>
-                      <td className="px-3 py-2">
+                      <td>{product.name}</td>
+                      <td className="capitalize">{product.type}</td>
+                      <td>{Number(product.price || 0).toLocaleString()} VND</td>
+                      <td>{product.stock}</td>
+                      <td>
                         <div className="flex gap-2">
                           <Link to={`/admin/products/edit/${product._id}`} className="btn-secondary">
                             Edit

@@ -27,8 +27,8 @@ export default function Pagination({ page, pages, keyword = '', type = '' }) {
             to={buildUrl(x + 1)}
             className={
               current
-                ? 'btn h-9 min-w-9 bg-brand-500 px-3 text-white hover:bg-brand-600'
-                : 'btn-secondary h-9 min-w-9 px-3'
+                ? 'btn h-10 min-w-10 bg-brand-600 px-3 text-white hover:bg-brand-700'
+                : 'btn-secondary h-10 min-w-10 px-3'
             }
           >
             {x + 1}

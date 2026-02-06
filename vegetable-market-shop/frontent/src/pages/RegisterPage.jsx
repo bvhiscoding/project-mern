@@ -57,8 +57,8 @@ export default function RegisterPage() {
   return (
     <>
       <Navbar />
-      <main className="container-page max-w-2xl">
-        <div className="card p-6">
+      <main className="auth-shell max-w-2xl">
+        <div className="auth-card">
           <h1>Register</h1>
           {localError ? <Message variant="error">{localError}</Message> : null}
           {error ? <Message variant="error">{error}</Message> : null}

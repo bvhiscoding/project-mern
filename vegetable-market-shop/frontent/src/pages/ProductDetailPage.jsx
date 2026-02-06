@@ -183,7 +183,7 @@ export default function ProductDetailPage() {
           <div className="mt-4 space-y-4">
             {reviews.length === 0 ? <Message variant="info">No reviews yet.</Message> : null}
             {reviews.map((review) => (
-              <article key={review._id} className="rounded-lg border border-slate-200 p-3">
+              <article key={review._id} className="rounded-xl border border-[#dbe5d3] bg-[#fbfcf8] p-3">
                 <strong>{review.user?.name || 'User'}</strong>
                 <p className="text-sm text-slate-500">{review.rating}/5</p>
                 <p className="mt-1 text-sm">{review.comment}</p>

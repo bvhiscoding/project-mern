@@ -94,33 +94,35 @@ export default function AdminDashboardPage() {
               </div>
             </section>
 
-            <section className="card overflow-x-auto p-4">
+            <section className="card p-4">
               <h2>Recent Orders</h2>
               {recentOrders.length === 0 ? (
                 <Message variant="info">No recent orders.</Message>
               ) : (
-                <table className="mt-3 min-w-full text-sm">
-                  <thead className="bg-slate-100 text-slate-700">
+                <div className="table-shell mt-3">
+                <table className="table-base">
+                  <thead>
                     <tr>
-                      <th className="px-3 py-2 text-left">ID</th>
-                      <th className="px-3 py-2 text-left">User</th>
-                      <th className="px-3 py-2 text-left">Date</th>
-                      <th className="px-3 py-2 text-left">Total</th>
-                      <th className="px-3 py-2 text-left">Status</th>
+                      <th>ID</th>
+                      <th>User</th>
+                      <th>Date</th>
+                      <th>Total</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {recentOrders.map((order) => (
-                      <tr key={order._id} className="border-t border-slate-200">
-                        <td className="px-3 py-2">{order._id.slice(-8)}</td>
-                        <td className="px-3 py-2">{order.user?.name || '-'}</td>
-                        <td className="px-3 py-2">{new Date(order.createdAt).toLocaleDateString()}</td>
-                        <td className="px-3 py-2">{Number(order.totalPrice || 0).toLocaleString()} VND</td>
-                        <td className="px-3 py-2">{order.status}</td>
+                      <tr key={order._id}>
+                        <td>{order._id.slice(-8)}</td>
+                        <td>{order.user?.name || '-'}</td>
+                        <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td>{Number(order.totalPrice || 0).toLocaleString()} VND</td>
+                        <td>{order.status}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </section>
           </>

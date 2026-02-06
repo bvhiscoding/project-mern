@@ -48,26 +48,26 @@ export default function AdminOrdersPage() {
         {error ? <Message variant="error">{error}</Message> : null}
 
         {!loading && !error ? (
-          <div className="card overflow-x-auto">
-            <table className="min-w-full text-sm">
-              <thead className="bg-slate-100 text-slate-700">
+          <div className="table-shell">
+            <table className="table-base">
+              <thead>
                 <tr>
-                  <th className="px-3 py-2 text-left">ID</th>
-                  <th className="px-3 py-2 text-left">User</th>
-                  <th className="px-3 py-2 text-left">Date</th>
-                  <th className="px-3 py-2 text-left">Total</th>
-                  <th className="px-3 py-2 text-left">Status</th>
-                  <th className="px-3 py-2 text-left">Actions</th>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
-                  <tr key={order._id} className="border-t border-slate-200">
-                    <td className="px-3 py-2">{order._id.slice(-8)}</td>
-                    <td className="px-3 py-2">{order.user?.name || '-'}</td>
-                    <td className="px-3 py-2">{new Date(order.createdAt).toLocaleDateString()}</td>
-                    <td className="px-3 py-2">{Number(order.totalPrice || 0).toLocaleString()} VND</td>
-                    <td className="px-3 py-2">
+                  <tr key={order._id}>
+                    <td>{order._id.slice(-8)}</td>
+                    <td>{order.user?.name || '-'}</td>
+                    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>{Number(order.totalPrice || 0).toLocaleString()} VND</td>
+                    <td>
                       <select className="input max-w-40" value={order.status} onChange={(e) => updateStatus(order._id, e.target.value)}>
                         {STATUS_OPTIONS.map((status) => (
                           <option key={status} value={status}>
@@ -76,7 +76,7 @@ export default function AdminOrdersPage() {
                         ))}
                       </select>
                     </td>
-                    <td className="px-3 py-2">
+                    <td>
                       <Link to={`/order/${order._id}`}>View Details</Link>
                     </td>
                   </tr>

@@ -34,8 +34,8 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <main className="container-page max-w-lg">
-        <div className="card p-6">
+      <main className="auth-shell max-w-lg">
+        <div className="auth-card">
           <h1>Login</h1>
           {error ? <Message variant="error">{error}</Message> : null}
           {loading ? <Loader /> : null}

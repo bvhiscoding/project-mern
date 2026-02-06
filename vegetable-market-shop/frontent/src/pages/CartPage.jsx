@@ -20,6 +20,16 @@ export default function CartPage() {
     navigate('/shipping');
   };
 
+  const changeQty = (item, delta) => {
+    const nextQty = Math.max(1, Math.min(99, item.quantity + delta));
+    dispatch(
+      updateQuantity({
+        productId: item.product,
+        quantity: nextQty,
+      })
+    );
+  };
+
   return (
     <>
       <Navbar />
@@ -43,28 +53,28 @@ export default function CartPage() {
                       {item.name}
                     </Link>
                     <p className="text-sm text-slate-600">{item.price.toLocaleString()} VND</p>
-                    <label htmlFor={`qty-${item.product}`} className="label mt-2">
-                      Qty
-                    </label>
-                    <select
-                      id={`qty-${item.product}`}
-                      value={item.quantity}
-                      onChange={(e) =>
-                        dispatch(
-                          updateQuantity({
-                            productId: item.product,
-                            quantity: Number(e.target.value),
-                          })
-                        )
-                      }
-                      className="input max-w-24"
-                    >
-                      {[...Array(10).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="mt-2 flex items-center justify-center sm:justify-start">
+                      <div className="inline-flex items-center overflow-hidden rounded-xl border border-[#ccd9c0] bg-white shadow-sm">
+                        <button
+                          className="flex h-11 w-11 items-center justify-center bg-brand-50 text-lg font-semibold text-slate-700 transition-colors duration-200 hover:bg-brand-100 disabled:cursor-not-allowed disabled:text-slate-300"
+                          onClick={() => changeQty(item, -1)}
+                          aria-label={`Decrease quantity for ${item.name}`}
+                          disabled={item.quantity <= 1}
+                        >
+                          -
+                        </button>
+                        <div className="flex h-11 min-w-12 items-center justify-center border-x border-[#ccd9c0] text-sm font-semibold">
+                          {item.quantity}
+                        </div>
+                        <button
+                          className="flex h-11 w-11 items-center justify-center bg-brand-50 text-lg font-semibold text-slate-700 transition-colors duration-200 hover:bg-brand-100"
+                          onClick={() => changeQty(item, 1)}
+                          aria-label={`Increase quantity for ${item.name}`}
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="flex flex-col items-end gap-2">

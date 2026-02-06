@@ -78,8 +78,8 @@ export default function ProfilePage() {
   return (
     <>
       <Navbar />
-      <main className="container-page max-w-3xl">
-        <div className="card p-6">
+      <main className="auth-shell max-w-3xl">
+        <div className="auth-card">
           <h1>My Profile</h1>
           {loading ? <Loader /> : null}
           {error ? <Message variant="error">{error}</Message> : null}

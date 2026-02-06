@@ -28,13 +28,13 @@ export default function PaymentPage() {
   return (
     <>
       <Navbar />
-      <main className="container-page max-w-2xl">
-        <div className="card p-6">
+      <main className="auth-shell max-w-2xl">
+        <div className="auth-card">
           <h1>Payment Method</h1>
           {error ? <Message variant="error">{error}</Message> : null}
 
           <form onSubmit={submitHandler} className="mt-4 space-y-3">
-            <label className="flex items-center gap-2 rounded-lg border border-slate-200 p-3">
+            <label className="flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-[#d5e1cb] p-3 transition-colors duration-200 hover:bg-brand-50">
               <input
                 type="radio"
                 value="Cash on Delivery"
@@ -43,7 +43,7 @@ export default function PaymentPage() {
               />
               Cash on Delivery
             </label>
-            <label className="flex items-center gap-2 rounded-lg border border-slate-200 p-3">
+            <label className="flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-[#d5e1cb] p-3 transition-colors duration-200 hover:bg-brand-50">
               <input
                 type="radio"
                 value="PayPal"
@@ -52,7 +52,7 @@ export default function PaymentPage() {
               />
               PayPal
             </label>
-            <label className="flex items-center gap-2 rounded-lg border border-slate-200 p-3">
+            <label className="flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-[#d5e1cb] p-3 transition-colors duration-200 hover:bg-brand-50">
               <input
                 type="radio"
                 value="Credit Card"

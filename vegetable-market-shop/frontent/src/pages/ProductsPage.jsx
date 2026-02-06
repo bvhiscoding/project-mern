@@ -41,21 +41,22 @@ export default function ProductsPage() {
         <h1>All Products</h1>
         <SearchBox />
 
-        <section className="mt-4 flex flex-wrap gap-2">
-          <button onClick={() => setTypeFilter('')} disabled={!type} className="btn-secondary">
+        <section className="mt-5 flex flex-wrap gap-2 rounded-2xl border border-[#d4e0ca] bg-white p-2 shadow-soft">
+          <button
+            onClick={() => setTypeFilter('')}
+            className={`btn ${!type ? 'bg-brand-600 text-white' : 'border border-[#cfdac5] bg-white text-slate-700 hover:bg-brand-50'}`}
+          >
             All
           </button>
           <button
             onClick={() => setTypeFilter('fruit')}
-            disabled={type === 'fruit'}
-            className="btn-secondary"
+            className={`btn ${type === 'fruit' ? 'bg-brand-600 text-white' : 'border border-[#cfdac5] bg-white text-slate-700 hover:bg-brand-50'}`}
           >
             Fruits
           </button>
           <button
             onClick={() => setTypeFilter('vegetable')}
-            disabled={type === 'vegetable'}
-            className="btn-secondary"
+            className={`btn ${type === 'vegetable' ? 'bg-brand-600 text-white' : 'border border-[#cfdac5] bg-white text-slate-700 hover:bg-brand-50'}`}
           >
             Vegetables
           </button>
@@ -69,7 +70,7 @@ export default function ProductsPage() {
 
         {!loading && !error && products.length > 0 ? (
           <>
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

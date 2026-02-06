@@ -35,8 +35,8 @@ export default function ShippingPage() {
   return (
     <>
       <Navbar />
-      <main className="container-page max-w-2xl">
-        <div className="card p-6">
+      <main className="auth-shell max-w-2xl">
+        <div className="auth-card">
           <h1>Shipping Address</h1>
           <form onSubmit={submitHandler} className="mt-4 space-y-4">
             <input className="input" value={form.address} onChange={(e) => onChange('address', e.target.value)} placeholder="Address" required />
