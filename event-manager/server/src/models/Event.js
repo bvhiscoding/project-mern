@@ -30,6 +30,34 @@ const eventSchema = new mongoose.Schema(
       enum: ["draft", "published", "cancelled", "completed"],
       default: "draft",
     },
+    mode: {
+      type: String,
+      enum: ["online", "offline"],
+      default: "offline",
+    },
+    meetingLink: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    venueAddress: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    reminderEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    reminderAt: {
+      type: Date,
+      default: null,
+    },
+    reminderType: {
+      type: String,
+      enum: ["1h_before", "1d_before", "custom"],
+      default: "1h_before",
+    },
     capacity: {
       type: Number,
       default: 0,

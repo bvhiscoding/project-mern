@@ -31,6 +31,105 @@ const markPastPublishedAsCompleted = async () => {
     { $set: { status: "completed" } },
   );
 };
+
+const buildLocationAndReminderData = ({
+  source,
+  existing = {},
+  requireMode = false,
+}) => {
+  const hasField = (key) => Object.prototype.hasOwnProperty.call(source, key);
+  const toBoolean = (value) => {
+    if (typeof value === "boolean") return value;
+    if (typeof value === "string") {
+      const normalized = value.toLowerCase().trim();
+      if (normalized === "true") return true;
+      if (normalized === "false") return false;
+    }
+    return Boolean(value);
+  };
+
+  const mode = hasField("mode")
+    ? String(source.mode || "").toLowerCase()
+    : existing.mode;
+
+  if (requireMode && !mode) {
+    return { error: "mode is required" };
+  }
+
+  if (mode && !["online", "offline"].includes(mode)) {
+    return { error: "mode must be either online or offline" };
+  }
+
+  const meetingLink = hasField("meetingLink")
+    ? String(source.meetingLink || "").trim()
+    : (existing.meetingLink || "").trim();
+  const venueAddress = hasField("venueAddress")
+    ? String(source.venueAddress || "").trim()
+    : (existing.venueAddress || "").trim();
+
+  if (mode === "online" && !meetingLink) {
+    return { error: "meetingLink is required when mode is online" };
+  }
+
+  if (mode === "offline" && !venueAddress) {
+    return { error: "venueAddress is required when mode is offline" };
+  }
+
+  const reminderEnabled = hasField("reminderEnabled")
+    ? toBoolean(source.reminderEnabled)
+    : toBoolean(existing.reminderEnabled);
+
+  const reminderType = hasField("reminderType")
+    ? String(source.reminderType || "").toLowerCase()
+    : (existing.reminderType || "1h_before");
+
+  if (reminderEnabled && !["1h_before", "1d_before", "custom"].includes(reminderType)) {
+    return { error: "reminderType must be one of 1h_before, 1d_before, custom" };
+  }
+
+  let reminderAt = hasField("reminderAt")
+    ? source.reminderAt
+    : existing.reminderAt;
+
+  if (reminderEnabled) {
+    const eventDateMs = new Date(hasField("eventDate") ? source.eventDate : existing.eventDate).getTime();
+    if (Number.isNaN(eventDateMs)) {
+      return { error: "eventDate is invalid" };
+    }
+
+    if (reminderType === "1h_before") {
+      reminderAt = new Date(eventDateMs - 60 * 60 * 1000);
+    } else if (reminderType === "1d_before") {
+      reminderAt = new Date(eventDateMs - 24 * 60 * 60 * 1000);
+    } else {
+      if (!reminderAt) {
+        return { error: "reminderAt is required when reminderType is custom" };
+      }
+      reminderAt = new Date(reminderAt);
+      if (Number.isNaN(reminderAt.getTime())) {
+        return { error: "reminderAt is invalid" };
+      }
+    }
+
+    if (new Date(reminderAt).getTime() >= eventDateMs) {
+      return { error: "reminderAt must be before eventDate" };
+    }
+  } else {
+    reminderAt = null;
+  }
+
+  return {
+    value: {
+      mode,
+      meetingLink: mode === "online" ? meetingLink : "",
+      venueAddress: mode === "offline" ? venueAddress : "",
+      reminderEnabled,
+      reminderType: reminderEnabled ? reminderType : "1h_before",
+      reminderAt,
+    },
+  };
+};
+
 const getEvents = async (req, res) => {
   try {
     const { search, category, status, sort } = req.query;
@@ -127,8 +226,20 @@ const getEventById = async (req, res) => {
 
 const createEvent = async (req, res) => {
   try {
-    const { title, description, eventDate, category, status, capacity } =
-      req.body;
+    const {
+      title,
+      description,
+      eventDate,
+      category,
+      status,
+      capacity,
+      mode,
+      meetingLink,
+      venueAddress,
+      reminderEnabled,
+      reminderType,
+      reminderAt,
+    } = req.body;
     if (!title || !eventDate) {
       return res
         .status(400)
@@ -141,6 +252,24 @@ const createEvent = async (req, res) => {
       });
     }
 
+    const locationAndReminder = buildLocationAndReminderData({
+      source: {
+        mode,
+        meetingLink,
+        venueAddress,
+        reminderEnabled,
+        reminderType,
+        reminderAt,
+        eventDate,
+      },
+      existing: { eventDate },
+      requireMode: true,
+    });
+
+    if (locationAndReminder.error) {
+      return res.status(400).json({ message: locationAndReminder.error });
+    }
+
     const event = await Event.create({
       title,
       description: description || "",
@@ -151,6 +280,7 @@ const createEvent = async (req, res) => {
       capacity: Number.isFinite(Number(capacity)) ? Number(capacity) : 0,
       attendees: [],
       attendeesCount: 0,
+      ...locationAndReminder.value,
     });
 
     return res.status(201).json({ event });
@@ -182,12 +312,25 @@ const updateEvent = async (req, res) => {
       event.status = nextStatus;
     }
 
+    const locationAndReminder = buildLocationAndReminderData({
+      source: req.body,
+      existing: event,
+      requireMode: false,
+    });
+
+    if (locationAndReminder.error) {
+      return res.status(400).json({ message: locationAndReminder.error });
+    }
+
     const allowedFields = ["title", "description", "eventDate", "category", "capacity"];
     allowedFields.forEach((field) => {
       if (req.body[field] !== undefined) {
         event[field] = req.body[field];
       }
     });
+
+    Object.assign(event, locationAndReminder.value);
+
     await event.save();
     return res.status(200).json({ event });
   } catch (error) {

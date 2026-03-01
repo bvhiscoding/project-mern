@@ -66,6 +66,8 @@ const run = async () => {
         title: "Team Meeting",
         eventDate: new Date().toISOString(),
         category: "Meeting",
+        mode: "offline",
+        venueAddress: "Smoke Test Venue",
       });
     assert(createEventRes.status === 201, "Create event should return 201");
     assert(createEventRes.body.event.owner, "Event should have owner");
