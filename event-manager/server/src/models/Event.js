@@ -30,6 +30,22 @@ const eventSchema = new mongoose.Schema(
       enum: ["draft", "published", "cancelled", "completed"],
       default: "draft",
     },
+    capacity: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    attendees: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    attendeesCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true },
 );
