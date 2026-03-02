@@ -74,6 +74,24 @@ const eventSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    coverImageUrl: {
+      type: String,
+      default: "",
+    },
+    coverImagePublicId: {
+      type: String,
+      default: "",
+    },
+    ticketType: {
+      type: String,
+      enum: ["free", "paid"],
+      default: "free",
+    },
+    ticketPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
   },
   { timestamps: true },
 );

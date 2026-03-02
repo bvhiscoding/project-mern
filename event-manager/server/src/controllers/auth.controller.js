@@ -1,31 +1,34 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
+const AppError = require("../utils/ApiError");
+const { success } = require("../utils/ApiResponse");
+const asyncHandler = require("../middlewares/asyncHandler");
 
-const register = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Name, email, password are required" });
-    }
-    const userExist = await User.findOne({ email: email.toLowerCase() });
+const register = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
 
-    if (userExist) {
-      return res.status(400).json({ message: "Email already in use" });
-    }
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
-    const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      passwordHash,
-      role: "user",
-    });
+  const userExist = await User.findOne({ email: email.toLowerCase() });
+  if (userExist) {
+    throw new AppError("Email already in use", 400, "EMAIL_ALREADY_IN_USE");
+  }
 
-    const token = generateToken(user._id, user.role);
-    return res.status(201).json({
+  const salt = await bcrypt.genSalt(10);
+  const passwordHash = await bcrypt.hash(password, salt);
+
+  const user = await User.create({
+    name,
+    email: email.toLowerCase(),
+    passwordHash,
+    role: "user",
+  });
+
+  const token = generateToken(user._id, user.role);
+
+  return success(res, {
+    status: 201,
+    message: "Registered successfully",
+    data: {
       user: {
         id: user._id,
         name: user.name,
@@ -34,31 +37,28 @@ const register = async (req, res) => {
         avatar: user.avatar,
       },
       token,
-    });
-  } catch (error) {
-    console.error("Register error:", error);
-    return res.status(500).json({ message: error.message });
-  }
-};
+    },
+  });
+});
 
-const login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
-    }
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-    if (!isMatch) {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-    const token = generateToken(user._id, user.role);
-    return res.status(200).json({
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email: email.toLowerCase() });
+  if (!user) {
+    throw new AppError("Invalid credentials", 401, "INVALID_CREDENTIALS");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
+  if (!isMatch) {
+    throw new AppError("Invalid credentials", 401, "INVALID_CREDENTIALS");
+  }
+
+  const token = generateToken(user._id, user.role);
+
+  return success(res, {
+    message: "Login successful",
+    data: {
       user: {
         id: user._id,
         name: user.name,
@@ -67,19 +67,16 @@ const login = async (req, res) => {
         avatar: user.avatar,
       },
       token,
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    return res.status(500).json({ message: error.message });
-  }
-};
+    },
+  });
+});
 
-const logout = async (req, res) => {
-  return res.status(200).json({ message: "Logout successful on client side" }); // Backend chỉ xác nhận, client tự xóa token
-};
+const logout = asyncHandler(async (req, res) =>
+  success(res, { message: "Logout successful on client side" }),
+);
 
-const me = async (req, res) => {
-  return res.status(200).json({ user: req.user });
-};
+const me = asyncHandler(async (req, res) =>
+  success(res, { data: { user: req.user } }),
+);
 
 module.exports = { register, login, logout, me };

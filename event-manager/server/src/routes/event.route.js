@@ -11,17 +11,35 @@ const {
   leaveEvent,
   getEventAttendees,
 } = require("../controllers/event.controller");
+const { bookEvent } = require("../controllers/booking.controller");
+const {
+  validateBody,
+  validateParams,
+  validateQuery,
+} = require("../middlewares/validate.middleware");
+const {
+  idParamSchema,
+} = require("../validators/common.validation");
+const {
+  eventListQuerySchema,
+  createEventSchema,
+  updateEventSchema,
+} = require("../validators/event.validation");
+const {
+  createBookingSchema,
+} = require("../validators/booking.validation");
 const router = express.Router();
 
-router.get("/public", getPublicEvents);
+router.get("/public", validateQuery(eventListQuerySchema), getPublicEvents);
 
 router.use(protect);
-router.get("/", getEvents);
-router.get("/:id", getEventById);
-router.post("/", createEvent);
-router.put("/:id", updateEvent);
-router.delete("/:id", deleteEvent);
-router.post("/:id/join", joinEvent);
-router.post("/:id/leave", leaveEvent);
-router.get("/:id/attendees", getEventAttendees);
+router.get("/", validateQuery(eventListQuerySchema), getEvents);
+router.get("/:id", validateParams(idParamSchema), getEventById);
+router.post("/", validateBody(createEventSchema), createEvent);
+router.put("/:id", validateParams(idParamSchema), validateBody(updateEventSchema), updateEvent);
+router.delete("/:id", validateParams(idParamSchema), deleteEvent);
+router.post("/:id/join", validateParams(idParamSchema), joinEvent);
+router.post("/:id/leave", validateParams(idParamSchema), leaveEvent);
+router.get("/:id/attendees", validateParams(idParamSchema), getEventAttendees);
+router.post("/:id/book", validateParams(idParamSchema), validateBody(createBookingSchema), bookEvent);
 module.exports = router;
